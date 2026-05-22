@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie - Letterboxd Together</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/movie.js"></script>
+  </head>
+  <body>
+    <header class="site-header compact">
+      <a class="back-link" href="/">Back to movies</a>
+      <h1 id="pageTitle">Movie</h1>
+      <button id="refreshBtn" class="refresh-button" hidden>Refresh</button>
+    </header>
+
+    <main class="shell">
+      <p id="status" class="status" role="status">Loading movie...</p>
+      <section id="movieDetail" class="detail" hidden></section>
+    </main>
+  </body>
+</html>

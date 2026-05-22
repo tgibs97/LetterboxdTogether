@@ -1,0 +1,369 @@
+:root {
+  color-scheme: dark;
+  --bg: #101418;
+  --panel: #171d22;
+  --panel-strong: #20272e;
+  --text: #f2f4f3;
+  --muted: #a7b0ad;
+  --line: #2d363d;
+  --accent: #00c070;
+  --accent-strong: #00a85f;
+  --warning: #f0b35a;
+  --danger: #ff6b6b;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, rgba(0, 192, 112, 0.12), transparent 32rem), var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem clamp(1rem, 4vw, 3rem) 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header.compact {
+  justify-content: flex-start;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  letter-spacing: 0;
+}
+
+.compact h1 {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+}
+
+.eyebrow,
+.label {
+  display: block;
+  margin: 0 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 1.25rem auto 3rem;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 2fr) minmax(160px, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1rem;
+}
+
+.toolbar > *,
+.status,
+.entry,
+.detail-hero {
+  background: rgba(23, 29, 34, 0.88);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.toolbar > * {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 74px;
+  padding: 0.85rem;
+}
+
+#lastRefreshed {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 2.5rem;
+  color: var(--text);
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 0.75rem;
+}
+
+.primary-button,
+.sort-button {
+  cursor: pointer;
+  border: 0;
+}
+
+.primary-button {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  color: #07110c;
+  background: var(--accent);
+  border-radius: 6px;
+  font-weight: 800;
+}
+
+.primary-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+  color: var(--muted);
+  background: transparent;
+  padding: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.sort-button:hover {
+  color: var(--text);
+}
+
+.sort-button::after {
+  content: "↕";
+  font-size: 0.75em;
+  opacity: 0.5;
+}
+
+.sort-button[data-dir="asc"]::after {
+  content: "↑";
+  opacity: 0.9;
+}
+
+.sort-button[data-dir="desc"]::after {
+  content: "↓";
+  opacity: 0.9;
+}
+
+.status {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  color: var(--muted);
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+@keyframes spin-reel {
+  to { transform: rotate(360deg); }
+}
+
+.status.loading::before {
+  content: "";
+  display: inline-block;
+  width: 3.2em;
+  height: 3.2em;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  background: url("/film-reel.png") center / contain no-repeat;
+  filter: drop-shadow(0 0 6px rgba(0, 192, 112, 0.55));
+  animation: spin-reel 1.5s linear infinite;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(16, 20, 24, 0.74);
+}
+
+table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.85rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  color: var(--muted);
+  background: var(--panel);
+  font-size: 0.82rem;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: rgba(0, 192, 112, 0.08);
+}
+
+.poster {
+  width: 48px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #263039, #11171c);
+  border: 1px solid var(--line);
+}
+
+.poster.large {
+  width: min(210px, 42vw);
+}
+
+.poster-fallback {
+  display: inline-grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.film-link {
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.film-link:hover,
+.back-link:hover {
+  color: var(--accent);
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.pill {
+  padding: 0.22rem 0.48rem;
+  color: var(--text);
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.rating {
+  color: var(--warning);
+  white-space: nowrap;
+}
+
+.detail {
+  display: grid;
+  gap: 1rem;
+}
+
+.detail-hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1rem;
+}
+
+.detail-copy h2 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.7rem, 4vw, 3rem);
+}
+
+.meta {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.entries {
+  display: grid;
+  gap: 1rem;
+}
+
+.entry {
+  padding: 1rem;
+}
+
+.entry h3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin: 0 0 0.75rem;
+}
+
+.review-text {
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.back-link {
+  color: var(--muted);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.refresh-button {
+  margin-left: auto;
+  cursor: pointer;
+  padding: 0.4rem 0.9rem;
+  color: var(--text);
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.refresh-button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.refresh-button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+@media (max-width: 740px) {
+  .site-header,
+  .toolbar,
+  .detail-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header {
+    display: grid;
+  }
+
+  .primary-button {
+    width: 100%;
+  }
+}

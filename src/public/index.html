@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Letterboxd Together</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Shared diary</p>
+        <h1>Letterboxd Together</h1>
+      </div>
+      <button id="refreshButton" class="primary-button" type="button">Refresh</button>
+    </header>
+
+    <main class="shell">
+      <section class="toolbar" aria-label="Movie controls">
+        <div>
+          <span class="label">Last refreshed</span>
+          <strong id="lastRefreshed">Never</strong>
+        </div>
+        <label>
+          <span class="label">Search</span>
+          <input id="searchInput" type="search" placeholder="Filter by film name">
+        </label>
+        <label>
+          <span class="label">User</span>
+          <select id="userFilter">
+            <option value="">Everyone</option>
+          </select>
+        </label>
+      </section>
+
+      <p id="status" class="status" role="status">Loading movies...</p>
+
+      <section class="table-wrap" aria-label="Movies">
+        <table>
+          <thead>
+            <tr>
+              <th><button class="sort-button" data-sort="latestWatchedDate">Watched</button></th>
+              <th>Poster</th>
+              <th><button class="sort-button" data-sort="title">Title</button></th>
+              <th><button class="sort-button" data-sort="releaseDate">Year</button></th>
+              <th>Watched By</th>
+              <th><button class="sort-button" data-sort="averageRating">Average Score</button></th>
+            </tr>
+          </thead>
+          <tbody id="moviesBody"></tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

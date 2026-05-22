@@ -1,0 +1,42 @@
+services:
+  app:
+    # Replace with your actual GHCR image once the GitHub Actions workflow has run:
+    # ghcr.io/YOUR_GITHUB_USERNAME/letterboxdtogether:latest
+    image: ghcr.io/YOUR_GITHUB_USERNAME/letterboxdtogether:latest
+    container_name: letterboxd-together
+    restart: unless-stopped
+    volumes:
+      - cache_data:/app/src/data
+    environment:
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - TMDB_BEARER_TOKEN=${TMDB_BEARER_TOKEN}
+    # Uncomment to expose directly on LAN (without going through Cloudflare):
+    # ports:
+    #   - "3000:3000"
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: letterboxd-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - app
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: letterboxd-watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      # Check for new images every 5 minutes
+      - WATCHTOWER_POLL_INTERVAL=300
+      # Remove old images after updating
+      - WATCHTOWER_CLEANUP=true
+    # Only watch the app container, not cloudflared or itself
+    command: letterboxd-together
+
+volumes:
+  cache_data:
