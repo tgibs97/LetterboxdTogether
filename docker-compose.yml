@@ -1,8 +1,6 @@
 services:
   app:
-    # Replace with your actual GHCR image once the GitHub Actions workflow has run:
-    # ghcr.io/YOUR_GITHUB_USERNAME/letterboxdtogether:latest
-    image: ghcr.io/YOUR_GITHUB_USERNAME/letterboxdtogether:latest
+    image: ghcr.io/tgibs97/letterboxdtogether:latest
     container_name: letterboxd-together
     restart: unless-stopped
     volumes:
