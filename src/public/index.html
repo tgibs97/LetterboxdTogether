@@ -12,7 +12,7 @@
       <div>
         <h1>Letterboxd Together</h1>
       </div>
-      <button id="refreshButton" class="primary-button" type="button">Refresh</button>
+      <button id="refreshButton" class="refresh-button" type="button">Refresh</button>
     </header>
 
     <main class="shell">
@@ -43,7 +43,18 @@
               <th>Poster</th>
               <th><button class="sort-button" data-sort="title">Title</button></th>
               <th><button class="sort-button" data-sort="releaseDate">Year</button></th>
-              <th>Watched By</th>
+              <th>
+                <div class="column-filter">
+                  <button id="watchedByFilterButton" class="filter-button" type="button" aria-expanded="false" aria-controls="watchedByFilterMenu">
+                    Watched By
+                  </button>
+                  <div id="watchedByFilterMenu" class="filter-menu" hidden>
+                    <div class="filter-menu-title">Must include</div>
+                    <div id="watchedByFilterChoices" class="filter-checks"></div>
+                    <button id="clearWatchedByFilter" class="filter-clear" type="button">Clear filter</button>
+                  </div>
+                </div>
+              </th>
               <th><button class="sort-button" data-sort="averageRating">Average Score</button></th>
             </tr>
           </thead>
@@ -51,5 +62,26 @@
         </table>
       </section>
     </main>
+
+    <dialog id="refreshModal" class="modal" aria-labelledby="refreshModalTitle">
+      <form method="dialog" class="modal-panel">
+        <h2 id="refreshModalTitle">Refresh Letterboxd data?</h2>
+        <p>
+          This will re-scrape diary pages for all configured users. It can take a while and should not be run frequently because it is resource intensive for both this app and Letterboxd.
+        </p>
+        <fieldset class="picker-group">
+          <legend>Users to refresh</legend>
+          <label class="check-row check-row-strong">
+            <input id="refreshAllUsers" type="checkbox" checked>
+            <span>Refresh all users</span>
+          </label>
+          <div id="refreshUserChoices" class="check-grid"></div>
+        </fieldset>
+        <div class="modal-actions">
+          <button id="cancelRefreshButton" class="secondary-button" type="button">Cancel</button>
+          <button id="confirmRefreshButton" class="primary-button" type="button">Refresh now</button>
+        </div>
+      </form>
+    </dialog>
   </body>
 </html>

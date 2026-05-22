@@ -5,7 +5,7 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { scrapeDiary } from "./scraper/diaryScraper.js";
-import { isLikelyDirectImageUrl, mergeEntriesIntoMovies } from "./scraper/normalizers.js";
+import { compareDatesDesc, isLikelyDirectImageUrl, mergeEntriesIntoMovies } from "./scraper/normalizers.js";
 import { scrapeMovieDetails, scrapeReviewForEntry } from "./scraper/reviewScraper.js";
 import { closeBrowser } from "./scraper/browserFetch.js";
 import { findTmdbPoster } from "./scraper/tmdbClient.js";
@@ -113,21 +113,113 @@ function summariesFromCache(cache) {
   }));
 }
 
-async function refreshCache() {
-  const done = log.timer("full refresh");
-  log.info(`starting full refresh for ${USERS.length} user(s): ${USERS.join(", ")}`);
+function validRefreshUsers(requestedUsers) {
+  if (requestedUsers === undefined) {
+    return USERS;
+  }
 
-  const entries = [];
+  if (!Array.isArray(requestedUsers)) return [];
+
+  return [...new Set(requestedUsers)]
+    .filter((username) => USERS.includes(username));
+}
+
+function entriesFromUnselectedUsers(cache, selectedUsers) {
+  const selected = new Set(selectedUsers);
+  return Object.values(cache.moviesBySlug || {})
+    .flatMap((movie) => movie.entries || [])
+    .filter((entry) => !selected.has(entry.username));
+}
+
+function entriesForUser(cache, username) {
+  return Object.values(cache.moviesBySlug || {})
+    .flatMap((movie) => movie.entries || [])
+    .filter((entry) => entry.username === username);
+}
+
+function entryKey(entry) {
+  return [
+    entry.username || "",
+    entry.slug || "",
+    entry.watchedDate || "",
+    entry.reviewUrl || ""
+  ].join("|");
+}
+
+function appendMissingCachedEntries(entries, cachedEntries) {
+  const existing = new Set(entries.map(entryKey));
+  for (const cachedEntry of cachedEntries) {
+    const key = entryKey(cachedEntry);
+    if (existing.has(key)) continue;
+    entries.push(cachedEntry);
+    existing.add(key);
+  }
+}
+
+function preserveCachedMovieData(movies, previousMovies) {
+  for (const [slug, movie] of Object.entries(movies)) {
+    const previous = previousMovies?.[slug];
+    if (!previous) continue;
+
+    movie.details = previous.details || movie.details || {};
+    movie.posterSource = previous.posterSource || movie.posterSource;
+    movie.tmdbId = previous.tmdbId || movie.tmdbId;
+
+    if (!isLikelyDirectImageUrl(movie.posterUrl) && isLikelyDirectImageUrl(previous.posterUrl)) {
+      movie.posterUrl = previous.posterUrl;
+    }
+  }
+
+  return movies;
+}
+
+function updateMovieRollups(movie) {
+  movie.entries = (movie.entries || []).sort((a, b) => compareDatesDesc(a.watchedDate, b.watchedDate));
+  movie.latestWatchedDate = movie.entries[0]?.watchedDate || "";
+  movie.watchedBy = [...new Set(movie.entries.map((entry) => entry.username).filter(Boolean))].sort();
+
+  const ratings = movie.entries
+    .map((entry) => entry.rating)
+    .filter((rating) => typeof rating === "number" && !Number.isNaN(rating));
+  movie.averageRating = ratings.length
+    ? Number((ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length).toFixed(2))
+    : null;
+
+  return movie;
+}
+
+async function refreshCache(selectedUsers = USERS) {
+  const done = log.timer("refresh");
+  const usersToRefresh = validRefreshUsers(selectedUsers);
+
+  if (usersToRefresh.length === 0) {
+    throw new Error("No valid users selected for refresh.");
+  }
+
+  log.info(`starting refresh for ${usersToRefresh.length} user(s): ${usersToRefresh.join(", ")}`);
+
+  const previousCache = await readCache();
+
+  const entries = entriesFromUnselectedUsers(previousCache, usersToRefresh);
   const failures = [];
 
-  for (const username of USERS) {
+  for (const username of usersToRefresh) {
     const result = await scrapeDiary(username);
     entries.push(...result.entries);
     failures.push(...result.failures);
+
+    if (result.failures.length > 0) {
+      appendMissingCachedEntries(entries, entriesForUser(previousCache, username));
+      log.warn(`[${username}] had scrape failures, retained missing cached entries for this user`);
+    }
+
     log.info(`[${username}] contributed ${result.entries.length} entries, ${result.failures.length} failure(s)`);
   }
 
-  const movies = mergeEntriesIntoMovies(entries);
+  const movies = preserveCachedMovieData(
+    mergeEntriesIntoMovies(entries),
+    previousCache.moviesBySlug
+  );
   const movieCount = Object.keys(movies).length;
   log.info(`merged into ${movieCount} unique movie(s) from ${entries.length} total entries`);
 
@@ -142,7 +234,8 @@ async function refreshCache() {
     lastRefreshed: new Date().toISOString(),
     users: USERS,
     moviesBySlug: movies,
-    failures
+    failures,
+    lastRefreshUsers: usersToRefresh
   };
 
   await writeCache(cache);
@@ -272,7 +365,7 @@ app.get("/api/movies/:slug", async (req, res) => {
     res.status(404).json({ error: "Movie not found in cache. Run a refresh first." });
     return;
   }
-  res.json({ movie, lastRefreshed: cache.lastRefreshed });
+  res.json({ movie, users: USERS, lastRefreshed: cache.lastRefreshed });
 });
 
 app.get("/api/posters/:slug", async (req, res) => {
@@ -300,17 +393,56 @@ app.post("/api/refresh/:slug", async (req, res) => {
       return;
     }
     const movie = cache.moviesBySlug[slug];
+    const usersToRefresh = req.body?.users === undefined
+      ? USERS
+      : [...new Set(Array.isArray(req.body.users) ? req.body.users : [])]
+        .filter((username) => USERS.includes(username));
+
+    if (usersToRefresh.length === 0) {
+      res.status(400).json({ error: "No valid users selected for refresh.", users: USERS });
+      return;
+    }
+
+    const selectedUsers = new Set(usersToRefresh);
+    const existingUsers = new Set((movie.entries || []).map((entry) => entry.username));
     movie.details = {};
-    movie.entries = movie.entries.map((e) => ({ ...e, reviewChecked: false, reviewText: "", hasReview: false }));
+    movie.entries = movie.entries.map((entry) => selectedUsers.has(entry.username)
+      ? { ...entry, reviewChecked: false, reviewText: "", hasReview: false }
+      : entry
+    );
+    for (const username of usersToRefresh) {
+      if (existingUsers.has(username)) continue;
+      movie.entries.push({
+        username,
+        slug,
+        title: movie.title,
+        releaseDate: movie.releaseDate,
+        posterUrl: movie.posterUrl,
+        watchedDate: "",
+        rating: null,
+        reviewUrl: "",
+        viewingNumber: null,
+        hasReview: false,
+        reviewText: "",
+        reviewChecked: false,
+        probeOnly: true
+      });
+    }
     cache.moviesBySlug[slug] = movie;
     await writeCache(cache);
     log.info(`[${slug}] cleared cached details and review data — re-hydrating`);
 
     // preservePoster: true so re-scraping the film page can't overwrite the poster
     const hydrated = await hydrateMovieDetail(cache, slug, { preservePoster: true });
+    hydrated.entries = hydrated.entries
+      .filter((entry) => !(entry.probeOnly && !entry.hasReview))
+      .map(({ probeOnly, ...entry }) => entry);
+    updateMovieRollups(hydrated);
+    cache.moviesBySlug[slug] = hydrated;
+    await writeCache(cache);
 
     log.info(`[${slug}] single-movie refresh complete`);
-    res.json({ movie: hydrated, lastRefreshed: cache.lastRefreshed });
+    res.json({ movie: hydrated, users: USERS, lastRefreshed: cache.lastRefreshed, refreshedUsers: usersToRefresh });
   } catch (error) {
     log.error(`single-movie refresh failed for ${slug}: ${error.message}`);
     res.status(500).json({ error: "Refresh failed", message: error.message });
@@ -318,19 +450,27 @@ app.post("/api/refresh/:slug", async (req, res) => {
 });
 
 app.post("/api/refresh", async (req, res) => {
-  log.info("POST /api/refresh — full refresh requested");
+  const usersToRefresh = validRefreshUsers(req.body?.users);
+  log.info(`POST /api/refresh — refresh requested for ${usersToRefresh.join(", ") || "no valid users"}`);
+
+  if (usersToRefresh.length === 0) {
+    res.status(400).json({ error: "No valid users selected for refresh.", users: USERS });
+    return;
+  }
+
   try {
-    const cache = await refreshCache();
+    const cache = await refreshCache(usersToRefresh);
     const movies = summariesFromCache(cache);
-    log.info(`full refresh complete — ${movies.length} movie(s) in response`);
+    log.info(`refresh complete — ${movies.length} movie(s) in response`);
     res.json({
       lastRefreshed: cache.lastRefreshed,
       users: USERS,
       failures: cache.failures,
+      refreshedUsers: usersToRefresh,
       movies
     });
   } catch (error) {
-    log.error(`full refresh failed: ${error.message}`);
+    log.error(`refresh failed: ${error.message}`);
     res.status(500).json({ error: "Refresh failed", message: error.message });
   }
 });

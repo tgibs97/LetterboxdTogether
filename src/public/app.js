@@ -1,6 +1,7 @@
 const state = {
   movies: [],
   users: [],
+  watchedByFilter: [],
   sortKey: "latestWatchedDate",
   sortDirection: "desc"
 };
@@ -10,8 +11,17 @@ const elements = {
   status: document.querySelector("#status"),
   lastRefreshed: document.querySelector("#lastRefreshed"),
   refreshButton: document.querySelector("#refreshButton"),
+  refreshModal: document.querySelector("#refreshModal"),
+  cancelRefreshButton: document.querySelector("#cancelRefreshButton"),
+  confirmRefreshButton: document.querySelector("#confirmRefreshButton"),
+  refreshAllUsers: document.querySelector("#refreshAllUsers"),
+  refreshUserChoices: document.querySelector("#refreshUserChoices"),
   searchInput: document.querySelector("#searchInput"),
   userFilter: document.querySelector("#userFilter"),
+  watchedByFilterButton: document.querySelector("#watchedByFilterButton"),
+  watchedByFilterMenu: document.querySelector("#watchedByFilterMenu"),
+  watchedByFilterChoices: document.querySelector("#watchedByFilterChoices"),
+  clearWatchedByFilter: document.querySelector("#clearWatchedByFilter"),
   sortButtons: document.querySelectorAll(".sort-button")
 };
 
@@ -60,10 +70,12 @@ function escapeHtml(value) {
 function filteredMovies() {
   const query = elements.searchInput.value.trim().toLowerCase();
   const user = elements.userFilter.value;
+  const watchedByUsers = state.watchedByFilter;
 
   return state.movies
     .filter((movie) => !query || movie.title.toLowerCase().includes(query))
     .filter((movie) => !user || movie.watchedBy.includes(user))
+    .filter((movie) => watchedByUsers.every((selectedUser) => movie.watchedBy.includes(selectedUser)))
     .sort((a, b) => {
       const direction = state.sortDirection === "asc" ? 1 : -1;
       const aValue = a[state.sortKey];
@@ -85,6 +97,97 @@ function renderUsers() {
     option.textContent = user;
     elements.userFilter.append(option);
   }
+  renderRefreshChoices();
+  renderWatchedByFilterChoices();
+}
+
+function renderRefreshChoices() {
+  elements.refreshUserChoices.innerHTML = "";
+
+  for (const user of state.users) {
+    const label = document.createElement("label");
+    label.className = "check-row";
+    label.innerHTML = `
+      <input type="checkbox" value="${escapeHtml(user)}" data-refresh-user checked>
+      <span>${escapeHtml(user)}</span>
+    `;
+    elements.refreshUserChoices.append(label);
+  }
+
+  updateRefreshPicker();
+}
+
+function updateRefreshPicker() {
+  const userChecks = [...elements.refreshUserChoices.querySelectorAll("[data-refresh-user]")];
+  const refreshAll = elements.refreshAllUsers.checked;
+
+  for (const checkbox of userChecks) {
+    checkbox.disabled = refreshAll;
+    if (refreshAll) checkbox.checked = true;
+  }
+
+  elements.confirmRefreshButton.disabled = !refreshAll && !userChecks.some((checkbox) => checkbox.checked);
+}
+
+function selectedRefreshUsers() {
+  if (elements.refreshAllUsers.checked) return [...state.users];
+  return [...elements.refreshUserChoices.querySelectorAll("[data-refresh-user]:checked")]
+    .map((checkbox) => checkbox.value);
+}
+
+function renderWatchedByFilterChoices() {
+  const validUsers = new Set(state.users);
+  state.watchedByFilter = state.watchedByFilter.filter((user) => validUsers.has(user));
+  elements.watchedByFilterChoices.innerHTML = "";
+
+  for (const user of state.users) {
+    const label = document.createElement("label");
+    label.className = "check-row";
+    label.innerHTML = `
+      <input type="checkbox" value="${escapeHtml(user)}" data-watched-by-filter ${state.watchedByFilter.includes(user) ? "checked" : ""}>
+      <span>${escapeHtml(user)}</span>
+    `;
+    elements.watchedByFilterChoices.append(label);
+  }
+
+  updateWatchedByFilterButton();
+}
+
+function selectedWatchedByUsers() {
+  return [...elements.watchedByFilterChoices.querySelectorAll("[data-watched-by-filter]:checked")]
+    .map((checkbox) => checkbox.value);
+}
+
+function updateWatchedByFilter() {
+  state.watchedByFilter = selectedWatchedByUsers();
+  updateWatchedByFilterButton();
+  renderMovies();
+}
+
+function updateWatchedByFilterButton() {
+  const count = state.watchedByFilter.length;
+  elements.watchedByFilterButton.textContent = count ? `Watched By (${count})` : "Watched By";
+  elements.watchedByFilterButton.classList.toggle("active", count > 0);
+}
+
+function toggleWatchedByFilterMenu() {
+  const nextOpen = elements.watchedByFilterMenu.hidden;
+  elements.watchedByFilterMenu.hidden = !nextOpen;
+  elements.watchedByFilterButton.setAttribute("aria-expanded", String(nextOpen));
+}
+
+function closeWatchedByFilterMenu() {
+  elements.watchedByFilterMenu.hidden = true;
+  elements.watchedByFilterButton.setAttribute("aria-expanded", "false");
+}
+
+function clearWatchedByFilter() {
+  state.watchedByFilter = [];
+  for (const checkbox of elements.watchedByFilterChoices.querySelectorAll("[data-watched-by-filter]")) {
+    checkbox.checked = false;
+  }
+  updateWatchedByFilterButton();
+  renderMovies();
 }
 
 function renderMovies() {
@@ -152,10 +255,22 @@ async function loadMovies() {
 }
 
 async function refreshMovies() {
+  const users = selectedRefreshUsers();
+  if (!users.length) {
+    setStatus("Choose at least one user to refresh.", true);
+    return;
+  }
+
+  closeRefreshModal();
   elements.refreshButton.disabled = true;
-  setStatus("Refreshing from Letterboxd. This may take a while for full diary history...", false, true);
+  elements.confirmRefreshButton.disabled = true;
+  setStatus(`Refreshing ${users.join(", ")} from Letterboxd. This may take a while for full diary history...`, false, true);
   try {
-    const response = await fetch("/api/refresh", { method: "POST" });
+    const response = await fetch("/api/refresh", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ users })
+    });
     if (!response.ok) throw new Error(`API returned ${response.status}`);
     const data = await response.json();
     state.movies = data.movies || [];
@@ -170,6 +285,25 @@ async function refreshMovies() {
     setStatus(`Refresh failed: ${error.message}`, true);
   } finally {
     elements.refreshButton.disabled = false;
+    elements.confirmRefreshButton.disabled = false;
+  }
+}
+
+function openRefreshModal() {
+  if (!elements.refreshModal.showModal) {
+    if (window.confirm("Refresh Letterboxd data? This can take a while and should not be run frequently because it is resource intensive.")) {
+      refreshMovies();
+    }
+    return;
+  }
+
+  updateRefreshPicker();
+  elements.refreshModal.showModal();
+}
+
+function closeRefreshModal() {
+  if (elements.refreshModal.open) {
+    elements.refreshModal.close();
   }
 }
 
@@ -185,7 +319,26 @@ function updateSortIndicators() {
 
 elements.searchInput.addEventListener("input", renderMovies);
 elements.userFilter.addEventListener("change", renderMovies);
-elements.refreshButton.addEventListener("click", refreshMovies);
+elements.watchedByFilterButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  toggleWatchedByFilterMenu();
+});
+elements.watchedByFilterChoices.addEventListener("change", updateWatchedByFilter);
+elements.clearWatchedByFilter.addEventListener("click", clearWatchedByFilter);
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".column-filter")) closeWatchedByFilterMenu();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeWatchedByFilterMenu();
+});
+elements.refreshButton.addEventListener("click", openRefreshModal);
+elements.cancelRefreshButton.addEventListener("click", closeRefreshModal);
+elements.confirmRefreshButton.addEventListener("click", refreshMovies);
+elements.refreshAllUsers.addEventListener("change", updateRefreshPicker);
+elements.refreshUserChoices.addEventListener("change", updateRefreshPicker);
+elements.refreshModal.addEventListener("click", (event) => {
+  if (event.target === elements.refreshModal) closeRefreshModal();
+});
 for (const button of elements.sortButtons) {
   button.addEventListener("click", () => {
     const nextKey = button.dataset.sort;
