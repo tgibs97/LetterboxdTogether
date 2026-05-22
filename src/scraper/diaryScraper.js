@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import { absoluteUrl, fetchLetterboxd, logScrapeFailure } from "./letterboxdClient.js";
+import { createLogger } from "../logger.js";
 import {
   buildWatchedDate,
   isLikelyDirectImageUrl,
@@ -170,23 +171,39 @@ export function parseDiaryPage(html, username, url) {
 }
 
 export async function scrapeDiary(username) {
+  const log = createLogger(`diary:${username}`);
   const entries = [];
   const failures = [];
   const visited = new Set();
   const maxPages = Number(process.env.LETTERBOXD_MAX_DIARY_PAGES || 0);
   let nextUrl = absoluteUrl(`/${username}/diary/`);
-
   let referer;
+
+  log.info(`starting diary scrape${maxPages ? ` (max ${maxPages} pages)` : ""}`);
+  const done = log.timer(`diary scrape for ${username}`);
 
   while (nextUrl && !visited.has(nextUrl)) {
     visited.add(nextUrl);
+    const pageNum = visited.size;
+    log.info(`fetching page ${pageNum}${maxPages ? `/${maxPages}` : ""} — ${nextUrl}`);
 
     try {
       const { html, url } = await fetchLetterboxd(nextUrl, referer);
       referer = url;
       const parsed = parseDiaryPage(html, username, url);
       entries.push(...parsed.entries);
-      nextUrl = maxPages && visited.size >= maxPages ? "" : parsed.nextUrl;
+
+      log.info(`page ${pageNum}: found ${parsed.entries.length} entries (running total: ${entries.length})`);
+
+      if (maxPages && visited.size >= maxPages) {
+        log.info(`reached max page limit (${maxPages}) — stopping`);
+        nextUrl = "";
+      } else {
+        nextUrl = parsed.nextUrl;
+        if (!nextUrl) {
+          log.info("no next page — diary complete");
+        }
+      }
     } catch (error) {
       logScrapeFailure(`diary:${username}`, error);
       failures.push({
@@ -198,5 +215,7 @@ export async function scrapeDiary(username) {
     }
   }
 
+  done();
+  log.info(`finished: ${entries.length} entries across ${visited.size} page(s), ${failures.length} failure(s)`);
   return { entries, failures };
 }

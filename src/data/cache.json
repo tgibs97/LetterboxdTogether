@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-05-22T18:00:05.885Z",
+  "lastRefreshed": "2026-05-22T20:57:16.931Z",
   "users": [
     "tgibs97",
     "theonlysaneone",
@@ -19,16 +19,7 @@
         "theonlysaneone"
       ],
       "averageRating": 3.5,
-      "details": {
-        "director": "Steven Spielberg",
-        "runtime": "137 mins",
-        "genres": [
-          "Science Fiction",
-          "Drama"
-        ],
-        "description": "After an encounter with UFOs, an electricity linesman feels undeniably drawn to an isolated area in the wilderness where something spectacular is about to happen.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/2n/ek/hp/qx/close-encounters-1200-1200-675-675-crop-000000.jpg?v=1872fee203"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -41,8 +32,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/close-encounters-of-the-third-kind/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Close Encounters of the Third Kind is Good",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -66,7 +57,7 @@
       "slug": "the-menu-2022",
       "title": "The Menu",
       "releaseDate": "2022",
-      "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/9k/lr/hv/rv/GFq9kYUnpRCnlbIbjPzNA96e0j-1200-1200-675-675-crop-000000.jpg?v=4de0ef9ae6",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fPtUgMcLIboqlTlPrq0bQpKK8eq.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/the-menu-2022/",
       "latestWatchedDate": "2026-05-16",
       "watchedBy": [
@@ -74,16 +65,7 @@
         "theonlysaneone"
       ],
       "averageRating": 4.25,
-      "details": {
-        "director": "Mark Mylod",
-        "runtime": "107 mins",
-        "genres": [
-          "Comedy",
-          "Horror"
-        ],
-        "description": "A young couple travels to a remote island to eat at an exclusive restaurant where the chef has prepared a lavish menu, with some shocking surprises.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/9k/lr/hv/rv/GFq9kYUnpRCnlbIbjPzNA96e0j-1200-1200-675-675-crop-000000.jpg?v=4de0ef9ae6"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -96,8 +78,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/the-menu-2022/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "The Menu is Outstanding.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -113,7 +95,9 @@
           "reviewText": "",
           "reviewChecked": true
         }
-      ]
+      ],
+      "posterSource": "tmdb",
+      "tmdbId": 593643
     },
     "oceans-eleven-2001": {
       "slug": "oceans-eleven-2001",
@@ -127,16 +111,7 @@
         "theonlysaneone"
       ],
       "averageRating": 4.75,
-      "details": {
-        "director": "Steven Soderbergh",
-        "runtime": "116 mins",
-        "genres": [
-          "Thriller",
-          "Crime"
-        ],
-        "description": "Less than 24 hours into his parole, charismatic thief Danny Ocean is already rolling out his next plan: In one night, Danny's hand-picked crew of specialists will attempt to steal more than $150 million from three Las Vegas casinos. But to score the cash, Danny risks his chances of reconciling with ex-wife, Tess.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/oi/7t/zx/jy/oceans-eleven-1200-1200-675-675-crop-000000.jpg?v=42780e9996"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -149,8 +124,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/oceans-eleven-2001/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Ocean’s Eleven is a Masterpiece",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -163,8 +138,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/oceans-eleven-2001/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "The classic heist movie. All the other heist movies wish they could be this one.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -174,7 +149,7 @@
       "slug": "austin-powers-international-man-of-mystery",
       "title": "Austin Powers: International Man of Mystery",
       "releaseDate": "1997",
-      "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/rs/9v/22/nc/austin%20powers-1200-1200-675-675-crop-000000.jpg?v=391b34a0ba",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5uD4dxNX8JKFjWKYMHyOsqhi5pN.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/austin-powers-international-man-of-mystery/",
       "latestWatchedDate": "2026-04-26",
       "watchedBy": [
@@ -222,7 +197,7 @@
           "reviewChecked": true
         }
       ],
-      "posterSource": "letterboxd",
+      "posterSource": "tmdb",
       "tmdbId": 816
     },
     "nimona-2023": {
@@ -237,19 +212,7 @@
         "theonlysaneone"
       ],
       "averageRating": 4,
-      "details": {
-        "director": "Nick Bruno",
-        "runtime": "99 mins",
-        "genres": [
-          "Fantasy",
-          "Adventure",
-          "Animation",
-          "Family",
-          "Science Fiction"
-        ],
-        "description": "A knight framed for a tragic crime teams with a scrappy, shape-shifting teen to prove his innocence.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/or/yq/0l/pe/nimona-1200-1200-675-675-crop-000000.jpg?v=70b85dd549"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -262,8 +225,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/nimona-2023/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Nimona is Decent. Fantastically animated and backed by strong voice performances, it has style and energy to spare, but the story is where it starts to lose its footing. The plot keeps wavering back and forth, shifting direction so often that it becomes harder than it should be to stay fully locked into what the film is trying to say. Even when the emotional core is clear, the storytelling can feel messy and overcomplicated, which keeps it from landing as cleanly as it could. Still, the animation is lively and the cast committed to the point that Nimona remains an enjoyable watch despite its narrative stumbles.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -276,8 +239,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/nimona-2023/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "This movie is fantastic and will always be fantastic.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -296,20 +259,7 @@
         "theonlysaneone"
       ],
       "averageRating": 4,
-      "details": {
-        "director": "Mamoru Hosoda",
-        "runtime": "119 mins",
-        "genres": [
-          "Family",
-          "Adventure",
-          "Action",
-          "Drama",
-          "Animation",
-          "Fantasy"
-        ],
-        "description": "Kyuta, a boy living in Shibuya, and Kumatetsu, a lonesome beast from Jutengai, an imaginary world. One day, Kyuta forays into the imaginary world and, as he's looking for his way back, meets Kumatetsu who becomes his spirit guide. That encounter leads them to many adventures.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/26/05/be/dk/boy-and-beast-1200-1200-675-675-crop-000000.jpg?v=f699243454"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -322,8 +272,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/the-boy-and-the-beast/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "The Boy and the Beast is Good. It starts strong and builds real momentum through its first act, with an engaging setup, strong character building, and beautifully animation that gives the film a lot of life. Unfortunately, around the midway point, the plot and the main character take a tangent that just did not work for me. This middle stretch ends up feeling bloated and less focused than the rest of the film. If that middle third had been cut and the first and final thirds of the film given a little more room to breathe, I think this could have been a much better film. Even so, the bloat never completely sinks the experience, and the film remains worth watching for its emotional core, strong opening and closing sections, and consistently excellent animation.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -336,8 +286,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/the-boy-and-the-beast/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Love these characters, loved the animation. Proof that the best father figures can be the most unexpected. And vice versa *cough cough*",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "kieutpie",
@@ -350,8 +300,8 @@
           "reviewUrl": "https://letterboxd.com/kieutpie/film/the-boy-and-the-beast/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "The Boy and the Beast is a movie that that hits a very particular emotional angle for me, so I will not pretend that it causes me to have a soft spot for the film. It represents a lot of what I enjoy in Japanese storytelling that I commonly see in animated films, where it has a sort of whimsical fantasy that hits a lot of human emotions, even if one may not take it as seriously at first. I see this film as a good coming-of-age story, though with a good twist of placing the main character outside of the confines of human society for the majority of their youth. It doesn't ever present the choice between living in the beast world versus the human world as moralistic nor explicitly demonize one side over the other (minus the necessary lore-building to explain why the worlds are separate to begin with). The core plot of the movie centers around growth, finding one's way, and the support it takes to accept others' decisions. Everyone has flaws and the film's premise revolves around the concept of how acceptance in one's self elevates you part of the way - and taking in the goodwill of others in the confusing journey gets you the other part of the way. The journey, not necessarily the destination, is what counts.While I will concede that the movie sometimes has pacing issues (some scenes did not feel particularly necessary or the film lingered on certain points too long), I think as a whole cohesive story, it does it job well. I also found the film to be beautifully animated, with a good OST, so I certainly wasn't lacking for more in that particular department. I think this film was a good solid example of the genre, with a decent moral to boot.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -361,7 +311,7 @@
       "slug": "project-hail-mary",
       "title": "Project Hail Mary",
       "releaseDate": "2026",
-      "posterUrl": "https://a.ltrbxd.com/resized/alternative-backdrop/6/1/1/2/8/8/tmdb/o2xLxY1LdwBMsrGD9hjIaOrIQm6-1200-1200-675-675-crop-000000.jpg?v=70f2fabccc",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/yihdXomYb5kTeSivtFndMy5iDmf.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/project-hail-mary/",
       "latestWatchedDate": "2026-03-21",
       "watchedBy": [
@@ -370,16 +320,7 @@
         "theonlysaneone"
       ],
       "averageRating": 4.88,
-      "details": {
-        "director": "Phil Lord",
-        "runtime": "156 mins",
-        "genres": [
-          "Science Fiction",
-          "Adventure"
-        ],
-        "description": "Science teacher Ryland Grace wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction… but an unexpected friendship means he may not have to do it alone.",
-        "posterUrl": "https://a.ltrbxd.com/resized/alternative-backdrop/6/1/1/2/8/8/tmdb/o2xLxY1LdwBMsrGD9hjIaOrIQm6-1200-1200-675-675-crop-000000.jpg?v=70f2fabccc"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -392,8 +333,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/project-hail-mary/1/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Saw it again in regular 70mm, and it's still a masterpiece.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "tgibs97",
@@ -406,8 +347,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/project-hail-mary/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Project Hail Mary is a Masterpiece. A visually stunning, obligatory \"IMAX 70MM is beautiful\", space odyssey powered by real emotion, sharp wit, and one of Ryan Gosling’s best performances, it somehow makes hard science, huge spectacle, and genuine heart feel perfectly weightless together. Elevating it even further is Rocky, who quickly becomes the soul of the film. He is funny, endearing, and unexpectedly moving for a rock, turning the story into a heartfelt buddy comedy instead of just another survival thriller. The score and OST are the final piece that pushes it over the top, giving the entire film a sense of awe that lingers long after it ends. Ryan Gosling’s performance, Rocky’s practical-screen presence, the story, the script, the score and ost, the practical and special effects, the cinematography, IMAX 70MM! Project Hail Mary is one of those rare films, and rare-er sci-fi films that completely satisfies, thrills the brain, crushes the heart, and leaves you grateful it exists.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -420,8 +361,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/project-hail-mary/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Beautifully cinematic and emotionally moving. Such a good story--I can only imagine it is a faithful adaptation--the characters shine like stars.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "kieutpie",
@@ -434,11 +375,11 @@
           "reviewUrl": "https://letterboxd.com/kieutpie/film/project-hail-mary/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "When I say I felt like I went through the complete hero's journey through this film, I mean it. It felt like I went through an entire movie about cats having multiple lives, reincarnation, nirvana, acceptance, the whole nine yards - even if this film had almost none of that. I quite enjoyed this film, and I really wasn't expecting to enjoy it as much as I am at this present point in time.This film, felt complete to me. I had a satisfying start, felt compelled through each plot point, each flashback actually felt relevant, and the conclusion was satisfying. It was environmentally stunning - wonderful shots, beautiful visuals, immersive soundtrack, the whole experience just felt like I was one with the universe. It doesn't try and go too far out there to create complications in the plot, instead relying on a lot of core emotions and experiences to understand why Grace and Rocky bonding felt so... human (for a lack of a better word). I honestly am at a lack of words about how happy I was seeing that film, I'll inevitably edit this review to write more later - so stay tuned.Re joke segment: Ryan Gosling looked so fucking hot in the film. Something about a frumpy nerd with glasses, messy hair, scruffy beard, and watching him bond with Rocky kinda made my heart flutter a little, not gonna lie. This is the secret romance film that we should be getting more often, and it's wrapped in the neat little bow-tie of a friendship - see film makers, we don't need everything to feel carnally driven (just sometimes). Nerdy teachers with messy hair, scruffy beards, and needing a hug - hit me up.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
-      "posterSource": "letterboxd",
+      "posterSource": "tmdb",
       "tmdbId": 687163
     },
     "good-luck-have-fun-dont-die": {
@@ -454,17 +395,7 @@
         "theonlysaneone"
       ],
       "averageRating": 3.83,
-      "details": {
-        "director": "Gore Verbinski",
-        "runtime": "134 mins",
-        "genres": [
-          "Action",
-          "Science Fiction",
-          "Comedy"
-        ],
-        "description": "A 'Man from the Future' arrives at an LA diner where he must recruit the precise combination of disgruntled patrons to join him on a one-night quest to save the world from the terminal threat of a rogue artificial intelligence.",
-        "posterUrl": "https://a.ltrbxd.com/resized/alternative-backdrop/1/0/0/9/2/3/7/tmdb/pIISC3AFeMS20ieUfevg8CDWsst-1200-1200-675-675-crop-000000.jpg?v=8295f27487"
-      },
+      "details": {},
       "entries": [
         {
           "username": "kieutpie",
@@ -477,8 +408,8 @@
           "reviewUrl": "https://letterboxd.com/kieutpie/film/good-luck-have-fun-dont-die/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "A certainly unique movie to say the least, if not a mouthful. I think there is quite a bit of fun to be had viewing this film, albeit, I recognize this movie isn't my cup of tea - not a bad movie nonetheless. The movie has a rather unique concept in my opinion, and really only falls flat because the ending wasn't as executed as well as I'd like. It has multiple different perspectives, plays around with some timeline shenaniganery, and is a rather fresh take on a saving-the-world concept.I will preface the following in that this film has a format / vibe that just isn't my cup of tea, but its not the fault of the film itself. I think it is a very entertaining, fast-paced, and choppy story, which works well in some ways. This movie really rewards big-brain thinkers, watching things come together after countless wires cross paths, and you see the characters as narrative tool-pieces as the story flashes to life at the very end. It is in that precise chaos that I find a particular sense of dissatisfaction however. I found the film a bit too stretched thin in someways and half-baked in others. For example, they made the intentional choice to only really go into depth on 3.5 characters' backstories - which isn't a bad thing, each of those were rather compelling and interesting to follow. It did however, leave me completely bored AND predicting who would get eliminated next because it barely felt like there was a sense of unity in the cast as they escape through the city. A bunch of disparate lines all tangled together - a rather apt way to describe the plot itself. For people that like fast-changing scenes with action-packed stakes, this will definitely be a good watch for you!I will give the film credit that its sonic and visual choices really laid in just how zany the movie is. It is a visual overload, and I will warn you that the ending can get rather overstimulating. It's an overall clever movie, with lots of things to compliment and enjoy, with a rather interesting premise. I just found the experience to be both overstimulating and messy to watch, albeit entertaining!",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "tgibs97",
@@ -491,8 +422,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/good-luck-have-fun-dont-die/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Good Luck, Have Fun, Don’t Die is Outstanding. The casting is excellent across the board, with every performance feeling natural and perfectly suited to the tone of the story. The writing is sharp, character driven, and consistently engaging, giving the film real emotional weight alongside its bigger moments. The story itself is gripping from start to finish, and I genuinely loved every second of it. The dinner scene at the start of the film is an instant add to my favorite scenes of all time. While some of the twists are a bit less subtle than they could have been, and the final showdown falls into some messy CGI excess, those flaws make up a small portion of what is otherwise a fantastic experience. The other ninety percent of this film more than earns its praise.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -505,8 +436,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/good-luck-have-fun-dont-die/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "I did, in fact, have fun.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -516,7 +447,7 @@
       "slug": "wuthering-heights-2026",
       "title": "Wuthering Heights",
       "releaseDate": "2026",
-      "posterUrl": "https://a.ltrbxd.com/resized/alternative-backdrop/1/1/9/6/9/1/1/tmdb/oGAYQOhfuXMh9Cpp4LNfzI5uDS3-1200-1200-675-675-crop-000000.jpg?v=e3febde0b8",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3YBce6dTh1D5oCMITXk2S5QhPt.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/wuthering-heights-2026/",
       "latestWatchedDate": "2026-02-15",
       "watchedBy": [
@@ -526,16 +457,7 @@
         "theonlysaneone"
       ],
       "averageRating": 2.5,
-      "details": {
-        "director": "Emerald Fennell",
-        "runtime": "136 mins",
-        "genres": [
-          "Romance",
-          "Drama"
-        ],
-        "description": "Tragedy strikes when Heathcliff falls in love with Catherine Earnshaw, a woman from a wealthy family in 18th-century England.",
-        "posterUrl": "https://a.ltrbxd.com/resized/alternative-backdrop/1/1/9/6/9/1/1/tmdb/oGAYQOhfuXMh9Cpp4LNfzI5uDS3-1200-1200-675-675-crop-000000.jpg?v=e3febde0b8"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -548,8 +470,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/wuthering-heights-2026/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Wuthering Heights is Mediocre. The fundamentals are undeniably solid, with strong performances across the board, beautifully detailed set and costume design, and genuinely great cinematography that captures the bleak, windswept atmosphere perfectly. On a technical level, there is a lot to admire. Unfortunately, the story and writing feel like dead weight dragging all of that craftsmanship down. The first third effectively sets the stage, establishing the characters and their emotional stakes, but once that groundwork is laid, the film simply stalls. It circles the same conflicts and character beats over and over, creating the sense that nothing is truly progressing. What should feel tragic and sweeping instead becomes repetitive, and the bloated runtime only amplifies the problem.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -562,8 +484,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/wuthering-heights-2026/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Is this a good adaptation? Who can say? Is it good? ...honestly kinda. The visuals may not be historically accurate, but they are beautiful and have got the insane vibes down. Please see the leeches on the wall skin... ultimately I think it does what it sets out to do.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "inscrutablejule",
@@ -576,8 +498,8 @@
           "reviewUrl": "https://letterboxd.com/inscrutablejule/film/wuthering-heights-2026/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Paul Hollywood voice: \"STYLE OVER SUBSTANCE.\"",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "kieutpie",
@@ -590,10 +512,12 @@
           "reviewUrl": "https://letterboxd.com/kieutpie/film/wuthering-heights-2026/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "I will preface this review in that I read the book a very long time ago (like 15 years ago), so I had some level of premeditated expectations going into my viewing of the movie. The movie ends up covering only a portion of the actual story of the book, so the review will be framed around that section.When Wuthering Heights does something well, it does it extremely well - and in the exact same inverse, when Wuthering Heights flops, it flops very badly. My main praise / complaints about the movie tend to fall into two camps: the movie handles visuals, setting, and lusty drawling very well while its overall story and framing of characterization fall flat, leading to a very polarizing movie experience. Would I watch it again? Probably, it unfortunately hits at a weird psychological itch of romantic torture I pine for, but I most certainly wouldn't be calling this a masterpiece or anything of the sort.For what it's worth, I think this film is gorgeous to watch from start to finish. As a weird kooky artform, with the Charlie XCX features in the background interspersed with random period pieces, to very visually shocking and beautiful cinematography, it is clear they spared no expense in creating a visually engaging film. That combined with the emotional wankery between Catherine and Heathcliff being two nutty lovebirds made for a rather scenic experience. Granted, I don't really recall Bronte writing so much... explicit smut (though I'm pretty sure it's referenced in passing), which added a certain \"this was written for the Walmart bookshelves where the taudry romance novels are sold\" vibe to the movie, which I mostly appreciated out of a sheer appreciation for cheap shock value in a weird Twilight \"I should know better because irl, I'd be calling the cops, but let me indulge in this sinful fiction\" sort-of way. As a weird engaging artform, I was hooked from the frankly bizarre start.Now I would be lying if I said that I think the romance was appropriately paced - there were more than a few moments where I went \"ok I get it, they're hot, what's next?\" In fact, I'd be lying if I said that after a little bit of deeper thinking that I thought the love story was pure and just, and if anything, I think they were frankly underselling just how twisted both Catherine and Heathcliff were - and that's why they were actually meant for each other. Both of them are frankly cruel, weird, and lowkey sinister individuals, raised in a rather dark and dreary household (I know this is a little different than the book, but for the sake of the film, I'm taking it at face value) and the movie glosses over that when I think it could have been far more compelling how sick and twisted they were for each other. Trying to frame them as in the right, despite how they're affecting others puts this film in a weird grey area where they did too much sexually and not enough emotionally to really dig into their relationship and show that they're not 100% good people you should be rooting for. It's shown in parts (Isabella's treatment), but not enough for my taste. The film does its best to sanitize or reframe the situation surrounding the main lovebirds to try and garner sympathy for them, which it is half-successful at, but doesn't commit to the bit enough for you to cross over the line completely, leaving enough hints for you to go \"huh, they're fucked up\".Overall, a rather loose retelling of the original piece (or at least, what I can recall), but definitely an artistically engaging one! I definitely understand why people wouldn't like this film, and I definitely think there are things that should be ripped apart in the film (because how do you only tell one fourth of the original story and still somehow make it seem hollow at times), but like, I think there are things the film does well. Certain changes for the sake of a cohesive plot were appreciated decisions, and the romance is guilty pleasure romancing, sure. Good for the horny lovebirds, good for them!Now for my nonsensical opinions I just want to get off my chest... Heathcliff looked way hotter when he had the long hair and full beard, Nelly was in the right for the majority of the film (even if the movie tries to frame her as the antagonist), and Edgar was robbed of being hotter just to put more spotlight onto shaven Heathcliff when we could have had two bearded studmuffins competing over Catherine???",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
-      ]
+      ],
+      "posterSource": "tmdb",
+      "tmdbId": 1316092
     },
     "armageddon": {
       "slug": "armageddon",
@@ -1230,18 +1154,7 @@
         "tgibs97"
       ],
       "averageRating": 5,
-      "details": {
-        "director": "Robert Zemeckis",
-        "runtime": "100 mins",
-        "genres": [
-          "Animation",
-          "Family",
-          "Adventure",
-          "Fantasy"
-        ],
-        "description": "When a doubting young boy takes an extraordinary train ride to the North Pole, he embarks on a journey of self-discovery that shows him that the wonder of life never fades for those who believe.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/vw/kq/2s/y3/the-polar-express-1200-1200-675-675-crop-000000.jpg?v=a8bb4b6af2"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -1254,8 +1167,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/the-polar-express/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "This is the best Christmas movie hands down. There is simply not another movie that embodies the spirit of Christmas as much as The Polar Express does.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -1377,16 +1290,7 @@
         "tgibs97"
       ],
       "averageRating": 5,
-      "details": {
-        "director": "Quentin Tarantino",
-        "runtime": "253 mins",
-        "genres": [
-          "Action",
-          "Crime"
-        ],
-        "description": "A former assassin, known simply as The Bride, wakes from a coma four years after her jealous ex-lover Bill attempts to murder her on her wedding day. Fueled by an insatiable desire for revenge, she vows to get even with every person who contributed to the loss of her unborn child, her entire wedding party, and four years of her life. After devising a hit list, The Bride sets off on her quest, enduring unspeakable injury and unscrupulous enemies.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/o0/kh/h8/na/wba-1200-1200-675-675-crop-000000.jpg?v=addf08cc56"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -1399,8 +1303,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/kill-bill-the-whole-bloody-affair/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Kill Bill: The Whole Bloody Affair is a Masterpiece. Finally uniting Kill Bill Parts 1 and 2 into a single uninterrupted epic, a complete revenge saga that hits with more emotional weight, more stylistic cohesion, and more narrative purpose than either half can achieve on its own.As a full experience, it stands as one of cinema’s definitive tales of vengeance. The Bride’s journey flows seamlessly from explosive carnage to quiet introspection, from blood-soaked fury to heartfelt reckoning. The pacing benefits immensely, letting the momentum of the first half and the emotional payoff of the second half support each other in fully as was intended.The artistry on display is masterful. The cinematography blends the visual languages of kung fu films, spaghetti westerns, exploitation cinema, and classic samurai stories into something wholly its own. Every frame is crafted with passion, every color intentional, every cut purposeful. Tarantino’s deep love of 70s cinema radiates throughout the entire runtime. It is referential without being derivative, celebratory without being nostalgic, and bold enough to stand beside the very films that inspired it.The score and soundtrack only enhance that achievement. The eclectic mix of genres, from Ennio Morricone to Japanese surf rock, elevates scenes into moments of pure stylistic bliss. Few films can shift tones so effortlessly while maintaining total control, and here it feels natural, even exhilarating.When presented as one film, Kill Bill becomes a sweeping, mythic odyssey. It is stylish, emotional, violent, funny, tragic, and triumphant masterpiece. It celebrates the past while forging something new, all while delivering one of cinema’s great character revenge stories.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -1410,7 +1314,7 @@
       "slug": "wicked-for-good",
       "title": "Wicked: For Good",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/si9tolnefLSUKaqQEGz1bWArOaL.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/wicked-for-good/",
       "latestWatchedDate": "2025-11-23",
       "watchedBy": [
@@ -1433,15 +1337,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 967941
+      ]
     },
     "now-you-see-me-now-you-dont-2025": {
       "slug": "now-you-see-me-now-you-dont-2025",
       "title": "Now You See Me: Now You Don't",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/oD3Eey4e4Z259XLm3eD3WGcoJAh.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/now-you-see-me-now-you-dont-2025/",
       "latestWatchedDate": "2025-11-16",
       "watchedBy": [
@@ -1464,15 +1366,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 425274
+      ]
     },
     "now-you-see-me-2": {
       "slug": "now-you-see-me-2",
       "title": "Now You See Me 2",
       "releaseDate": "2016",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/A81kDB6a1K86YLlcOtZB27jriJh.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/now-you-see-me-2/",
       "latestWatchedDate": "2025-11-09",
       "watchedBy": [
@@ -1495,15 +1395,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 291805
+      ]
     },
     "wicked-2024": {
       "slug": "wicked-2024",
       "title": "Wicked",
       "releaseDate": "2024",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/xDGbZ0JJ3mYaGKy4Nzd9Kph6M9L.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/wicked-2024/",
       "latestWatchedDate": "2025-11-07",
       "watchedBy": [
@@ -1526,15 +1424,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 402431
+      ]
     },
     "now-you-see-me": {
       "slug": "now-you-see-me",
       "title": "Now You See Me",
       "releaseDate": "2013",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/tWsNYbrqy1p1w6K9zRk0mSchztT.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/now-you-see-me/",
       "latestWatchedDate": "2025-11-02",
       "watchedBy": [
@@ -1557,15 +1453,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 75656
+      ]
     },
     "the-godfather-part-ii": {
       "slug": "the-godfather-part-ii",
       "title": "The Godfather Part II",
       "releaseDate": "1974",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/the-godfather-part-ii/",
       "latestWatchedDate": "2025-10-26",
       "watchedBy": [
@@ -1588,15 +1482,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 240
+      ]
     },
     "roofman": {
       "slug": "roofman",
       "title": "Roofman",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/wXDFtcnYtevleGzCmAD2ReQnJ4l.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/roofman/",
       "latestWatchedDate": "2025-10-19",
       "watchedBy": [
@@ -1619,15 +1511,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 1242419
+      ]
     },
     "tron-ares": {
       "slug": "tron-ares",
       "title": "TRON: Ares",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/chpWmskl3aKm1aTZqUHRCtviwPy.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/tron-ares/",
       "latestWatchedDate": "2025-10-12",
       "watchedBy": [
@@ -1650,15 +1540,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 533533
+      ]
     },
     "tron-legacy": {
       "slug": "tron-legacy",
       "title": "TRON: Legacy",
       "releaseDate": "2010",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/8Nc6R8k7bG8frSiDJo0oLucF7dN.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/tron-legacy/",
       "latestWatchedDate": "2025-10-10",
       "watchedBy": [
@@ -1681,15 +1569,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 20526
+      ]
     },
     "iron-man-2008": {
       "slug": "iron-man-2008",
       "title": "Iron Man",
       "releaseDate": "2008",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/iron-man-2008/",
       "latestWatchedDate": "2025-09-28",
       "watchedBy": [
@@ -1712,15 +1598,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 1726
+      ]
     },
     "mamma-mia": {
       "slug": "mamma-mia",
       "title": "Mamma Mia!",
       "releaseDate": "2008",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/zdUA4FNHbXPadzVOJiU0Rgn6cHR.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/mamma-mia/",
       "latestWatchedDate": "2025-09-21",
       "watchedBy": [
@@ -1743,15 +1627,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 11631
+      ]
     },
     "tron": {
       "slug": "tron",
       "title": "Tron",
       "releaseDate": "1982",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/jigY9B6TKz4qlfikZcd18qtzTK4.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/tron/",
       "latestWatchedDate": "2025-09-14",
       "watchedBy": [
@@ -1774,15 +1656,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 97
+      ]
     },
     "the-godfather": {
       "slug": "the-godfather",
       "title": "The Godfather",
       "releaseDate": "1972",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/the-godfather/",
       "latestWatchedDate": "2025-09-07",
       "watchedBy": [
@@ -1805,15 +1685,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 238
+      ]
     },
     "promare": {
       "slug": "promare",
       "title": "Promare",
       "releaseDate": "2019",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/cCVRivpiVUJ4Wn6gHm8pLXppXla.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/promare/",
       "latestWatchedDate": "2025-08-31",
       "watchedBy": [
@@ -1836,15 +1714,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 553600
+      ]
     },
     "the-iron-giant": {
       "slug": "the-iron-giant",
       "title": "The Iron Giant",
       "releaseDate": "1999",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ct04FCFLPImNG5thcPLRnVsZlmS.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/the-iron-giant/",
       "latestWatchedDate": "2025-08-24",
       "watchedBy": [
@@ -1867,15 +1743,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 10386
+      ]
     },
     "pirates-of-the-caribbean-dead-men-tell-no-tales": {
       "slug": "pirates-of-the-caribbean-dead-men-tell-no-tales",
       "title": "Pirates of the Caribbean: Dead Men Tell No Tales",
       "releaseDate": "2017",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/6lAPOAFYFWIO3SQRemEY2wInQMC.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/pirates-of-the-caribbean-dead-men-tell-no-tales/",
       "latestWatchedDate": "2025-08-16",
       "watchedBy": [
@@ -1898,15 +1772,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 166426
+      ]
     },
     "pirates-of-the-caribbean-on-stranger-tides": {
       "slug": "pirates-of-the-caribbean-on-stranger-tides",
       "title": "Pirates of the Caribbean: On Stranger Tides",
       "releaseDate": "2011",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/keGfSvCmYj7CvdRx36OdVrAEibE.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/pirates-of-the-caribbean-on-stranger-tides/",
       "latestWatchedDate": "2025-08-15",
       "watchedBy": [
@@ -1929,32 +1801,20 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 1865
+      ]
     },
     "pirates-of-the-caribbean-at-worlds-end": {
       "slug": "pirates-of-the-caribbean-at-worlds-end",
       "title": "Pirates of the Caribbean: At World's End",
       "releaseDate": "2007",
-      "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/er/ay/4v/hh/pirates-at-worlds-end-80-1200-1200-675-675-crop-000000.jpg?v=20ddbd6d9f",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/pirates-of-the-caribbean-at-worlds-end/",
       "latestWatchedDate": "2025-08-10",
       "watchedBy": [
         "tgibs97"
       ],
       "averageRating": 3.5,
-      "details": {
-        "director": "Gore Verbinski",
-        "runtime": "169 mins",
-        "genres": [
-          "Adventure",
-          "Action",
-          "Fantasy"
-        ],
-        "description": "After losing Captain Jack Sparrow to the locker of Davy Jones, Will Turner, Elizabeth Swann, and Captain Barbossa journey to the ends of the earth to rescue him. And as the East India Trading Company tightens its grip on the seas under Lord Cutler Beckett—now in control of Davy Jones—the fate of piracy hangs by a thread. Now, they must unite the pirate lords for one final stand. But as loyalties are tested and alliances shift, each must ultimately choose where they stand in the battle for freedom on the high seas.",
-        "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/er/ay/4v/hh/pirates-at-worlds-end-80-1200-1200-675-675-crop-000000.jpg?v=20ddbd6d9f"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -1970,15 +1830,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "letterboxd",
-      "tmdbId": 285
+      ]
     },
     "pirates-of-the-caribbean-dead-mans-chest": {
       "slug": "pirates-of-the-caribbean-dead-mans-chest",
       "title": "Pirates of the Caribbean: Dead Man's Chest",
       "releaseDate": "2006",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/uXEqmloGyP7UXAiphJUu2v2pcuE.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/pirates-of-the-caribbean-dead-mans-chest/",
       "latestWatchedDate": "2025-08-03",
       "watchedBy": [
@@ -2001,15 +1859,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 58
+      ]
     },
     "pirates-of-the-caribbean-the-curse-of-the-black-pearl": {
       "slug": "pirates-of-the-caribbean-the-curse-of-the-black-pearl",
       "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
       "releaseDate": "2003",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/kvDwL2gTf6yxujbsWbsGQB3Z9Wa.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/pirates-of-the-caribbean-the-curse-of-the-black-pearl/",
       "latestWatchedDate": "2025-07-27",
       "watchedBy": [
@@ -2032,32 +1888,20 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 22
+      ]
     },
     "the-fantastic-4-first-steps": {
       "slug": "the-fantastic-4-first-steps",
       "title": "The Fantastic 4: First Steps",
       "releaseDate": "2025",
-      "posterUrl": "https://a.ltrbxd.com/resized/alternative-backdrop/5/4/3/9/6/7/tmdb/unthV1mq9llhEinIMPcCUImFodt-1200-1200-675-675-crop-000000.jpg?v=bb4259d7a8",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/the-fantastic-4-first-steps/",
       "latestWatchedDate": "2025-07-26",
       "watchedBy": [
         "tgibs97"
       ],
       "averageRating": 3,
-      "details": {
-        "director": "Matt Shakman",
-        "runtime": "115 mins",
-        "genres": [
-          "Action",
-          "Science Fiction",
-          "Adventure"
-        ],
-        "description": "Against the vibrant backdrop of a 1960s-inspired, retro-futuristic world, Marvel's First Family is forced to balance their roles as heroes with the strength of their family bond, while defending Earth from a ravenous space god called Galactus and his enigmatic Herald, Silver Surfer.",
-        "posterUrl": "https://a.ltrbxd.com/resized/alternative-backdrop/5/4/3/9/6/7/tmdb/unthV1mq9llhEinIMPcCUImFodt-1200-1200-675-675-crop-000000.jpg?v=bb4259d7a8"
-      },
+      "details": {},
       "entries": [
         {
           "username": "tgibs97",
@@ -2073,15 +1917,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "letterboxd",
-      "tmdbId": 617126
+      ]
     },
     "superman-2025": {
       "slug": "superman-2025",
       "title": "Superman",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ldyfo0BKmz5rWtJJKCvwaNS4cJT.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/superman-2025/",
       "latestWatchedDate": "2025-07-12",
       "watchedBy": [
@@ -2104,15 +1946,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 1061474
+      ]
     },
     "f1": {
       "slug": "f1",
       "title": "F1",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/vqBmyAj0Xm9LnS1xe1MSlMAJyHq.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/f1/",
       "latestWatchedDate": "2025-07-05",
       "watchedBy": [
@@ -2135,15 +1975,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 911430
+      ]
     },
     "jurassic-world-rebirth": {
       "slug": "jurassic-world-rebirth",
       "title": "Jurassic World Rebirth",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/1RICxzeoNCAO5NpcRMIgg1XT6fm.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/jurassic-world-rebirth/",
       "latestWatchedDate": "2025-07-04",
       "watchedBy": [
@@ -2166,15 +2004,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 1234821
+      ]
     },
     "lilo-stitch-2025": {
       "slug": "lilo-stitch-2025",
       "title": "Lilo & Stitch",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ckQzKpQJO4ZQDCN5evdpKcfm7Ys.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/lilo-stitch-2025/",
       "latestWatchedDate": "2025-05-23",
       "watchedBy": [
@@ -2197,15 +2033,13 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 552524
+      ]
     },
     "thunderbolts": {
       "slug": "thunderbolts",
       "title": "Thunderbolts*",
       "releaseDate": "2025",
-      "posterUrl": "https://image.tmdb.org/t/p/w342/hqcexYHbiTBfDIdDWxrxPtVndBX.jpg",
+      "posterUrl": "",
       "letterboxdUrl": "https://letterboxd.com/film/thunderbolts/",
       "latestWatchedDate": "2025-05-09",
       "watchedBy": [
@@ -2228,9 +2062,7 @@
           "reviewText": "",
           "reviewChecked": false
         }
-      ],
-      "posterSource": "tmdb",
-      "tmdbId": 986056
+      ]
     },
     "alien-romulus": {
       "slug": "alien-romulus",

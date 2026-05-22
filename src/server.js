@@ -9,6 +9,9 @@ import { isLikelyDirectImageUrl, mergeEntriesIntoMovies } from "./scraper/normal
 import { scrapeMovieDetails, scrapeReviewForEntry } from "./scraper/reviewScraper.js";
 import { closeBrowser } from "./scraper/browserFetch.js";
 import { findTmdbPoster } from "./scraper/tmdbClient.js";
+import { createLogger } from "./logger.js";
+
+const log = createLogger("server");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +26,17 @@ const app = express();
 app.use(express.json());
 app.use(express.static(PUBLIC_DIR));
 
+// ── HTTP request logger ───────────────────────────────────────────────────────
+app.use((req, _res, next) => {
+  const start = Date.now();
+  _res.on("finish", () => {
+    // Skip noisy static asset requests; only log /api/* and page routes
+    if (!req.path.startsWith("/api/") && !req.path.startsWith("/movie/") && req.path !== "/") return;
+    log.info(`${req.method} ${req.path} → ${_res.statusCode} (${Date.now() - start}ms)`);
+  });
+  next();
+});
+
 function emptyCache() {
   return {
     lastRefreshed: null,
@@ -33,29 +47,54 @@ function emptyCache() {
 }
 
 async function readCache() {
+  if (_cache) {
+    log.debug(`cache read (memory) — ${Object.keys(_cache.moviesBySlug || {}).length} movie(s), lastRefreshed=${_cache.lastRefreshed || "never"}`);
+    return _cache;
+  }
+  // Cold start — load from disk once.
   try {
     const raw = await fs.readFile(CACHE_PATH, "utf8");
-    return { ...emptyCache(), ...JSON.parse(raw), users: USERS };
+    const parsed = JSON.parse(raw);
+    const movieCount = Object.keys(parsed.moviesBySlug || {}).length;
+    log.info(`cache loaded from disk — ${movieCount} movie(s), lastRefreshed=${parsed.lastRefreshed || "never"}`);
+    _cache = { ...emptyCache(), ...parsed, users: USERS };
+    return _cache;
   } catch (error) {
-    if (error.code !== "ENOENT") {
-      console.error(`[cache] Failed to read cache: ${error.message}`);
+    if (error.code === "ENOENT") {
+      log.info("no cache file found — starting with empty cache");
+    } else {
+      log.error(`failed to read cache: ${error.message}`);
     }
-    return emptyCache();
+    _cache = emptyCache();
+    return _cache;
   }
 }
+
+// Single shared in-memory cache. All requests mutate the same object so
+// concurrent poster/detail lookups accumulate their changes rather than
+// each overwriting the others' work when they flush to disk.
+let _cache = null;
 
 // Serialise all writes so concurrent requests never race on the same rename target.
 let _writeLock = Promise.resolve();
 
 async function writeCache(cache) {
+  // Keep the in-memory pointer in sync immediately (synchronous) so the next
+  // readCache() call sees the latest state even before the disk write finishes.
+  _cache = cache;
+
   const doWrite = async () => {
     await fs.mkdir(path.dirname(CACHE_PATH), { recursive: true });
     const tmp = `${CACHE_PATH}.${randomUUID()}.tmp`;
+    const movieCount = Object.keys(cache.moviesBySlug || {}).length;
+    log.debug(`writing cache — ${movieCount} movie(s)`);
     await fs.writeFile(tmp, `${JSON.stringify(cache, null, 2)}\n`, "utf8");
     try {
       await fs.rename(tmp, CACHE_PATH);
+      log.debug("cache written successfully");
     } catch (err) {
       await fs.unlink(tmp).catch(() => {});
+      log.error(`cache write failed: ${err.message}`);
       throw err;
     }
   };
@@ -75,6 +114,9 @@ function summariesFromCache(cache) {
 }
 
 async function refreshCache() {
+  const done = log.timer("full refresh");
+  log.info(`starting full refresh for ${USERS.length} user(s): ${USERS.join(", ")}`);
+
   const entries = [];
   const failures = [];
 
@@ -82,32 +124,57 @@ async function refreshCache() {
     const result = await scrapeDiary(username);
     entries.push(...result.entries);
     failures.push(...result.failures);
+    log.info(`[${username}] contributed ${result.entries.length} entries, ${result.failures.length} failure(s)`);
+  }
+
+  const movies = mergeEntriesIntoMovies(entries);
+  const movieCount = Object.keys(movies).length;
+  log.info(`merged into ${movieCount} unique movie(s) from ${entries.length} total entries`);
+
+  if (failures.length > 0) {
+    log.warn(`${failures.length} scrape failure(s) during refresh:`);
+    for (const f of failures) {
+      log.warn(`  ${f.username} — ${f.message} (${f.url})`);
+    }
   }
 
   const cache = {
     lastRefreshed: new Date().toISOString(),
     users: USERS,
-    moviesBySlug: mergeEntriesIntoMovies(entries),
+    moviesBySlug: movies,
     failures
   };
 
   await writeCache(cache);
+  done();
   return cache;
 }
 
-async function hydrateMovieDetail(cache, slug) {
+async function hydrateMovieDetail(cache, slug, { preservePoster = false } = {}) {
   const movie = cache.moviesBySlug?.[slug];
-  if (!movie) return null;
+  if (!movie) {
+    log.warn(`hydrateMovieDetail: slug "${slug}" not found in cache`);
+    return null;
+  }
 
   let changed = false;
 
   if (!movie.details || !Object.keys(movie.details).length) {
+    log.info(`[${slug}] fetching movie details (not cached)`);
     const details = await scrapeMovieDetails(slug);
     movie.details = details;
-    if (!isLikelyDirectImageUrl(movie.posterUrl) && details.posterUrl) {
+    if (!preservePoster && !isLikelyDirectImageUrl(movie.posterUrl) && details.posterUrl) {
       movie.posterUrl = details.posterUrl;
+      log.debug(`[${slug}] updated poster from details`);
     }
     changed = true;
+  } else {
+    log.debug(`[${slug}] movie details already cached`);
+  }
+
+  const unchecked = movie.entries.filter((e) => !e.reviewChecked);
+  if (unchecked.length > 0) {
+    log.info(`[${slug}] checking ${unchecked.length} unchecked review(s)`);
   }
 
   for (let index = 0; index < movie.entries.length; index += 1) {
@@ -130,13 +197,22 @@ async function hydrateMovieDetail(cache, slug) {
 
 async function resolvePoster(cache, slug) {
   const movie = cache.moviesBySlug?.[slug];
-  if (!movie) return "";
+  if (!movie) {
+    log.warn(`resolvePoster: slug "${slug}" not found in cache`);
+    return "";
+  }
 
-  if (isLikelyDirectImageUrl(movie.posterUrl)) return movie.posterUrl;
+  if (isLikelyDirectImageUrl(movie.posterUrl)) {
+    log.debug(`[${slug}] poster already resolved (${movie.posterSource || "cached"})`);
+    return movie.posterUrl;
+  }
+
+  log.info(`[${slug}] resolving poster — trying TMDB first`);
 
   try {
     const tmdbPoster = await findTmdbPoster(movie);
     if (tmdbPoster?.posterUrl) {
+      log.info(`[${slug}] poster resolved via TMDB (tmdbId=${tmdbPoster.tmdbId})`);
       movie.posterUrl = tmdbPoster.posterUrl;
       movie.posterSource = "tmdb";
       movie.tmdbId = tmdbPoster.tmdbId;
@@ -146,42 +222,53 @@ async function resolvePoster(cache, slug) {
       cache.moviesBySlug[slug] = movie;
       await writeCache(cache);
       return movie.posterUrl;
+    } else {
+      log.info(`[${slug}] TMDB returned no poster — falling back to Letterboxd scrape`);
     }
   } catch (error) {
-    console.error(`[tmdb:${slug}] ${error.message}`);
+    log.error(`[${slug}] TMDB lookup failed: ${error.message}`);
   }
 
   try {
     const details = await scrapeMovieDetails(slug);
     if (details.posterUrl && isLikelyDirectImageUrl(details.posterUrl)) {
+      log.info(`[${slug}] poster resolved via Letterboxd scrape`);
       movie.posterUrl = details.posterUrl;
       movie.posterSource = "letterboxd";
       movie.details = { ...(movie.details || {}), ...details };
       cache.moviesBySlug[slug] = movie;
       await writeCache(cache);
       return movie.posterUrl;
+    } else {
+      log.warn(`[${slug}] Letterboxd scrape returned no usable poster`);
     }
   } catch (error) {
-    console.error(`[letterboxd-poster:${slug}] ${error.message}`);
+    log.error(`[${slug}] Letterboxd poster scrape failed: ${error.message}`);
   }
 
+  log.warn(`[${slug}] could not resolve poster from any source`);
   return "";
 }
 
 app.get("/api/movies", async (req, res) => {
   const cache = await readCache();
+  const movies = summariesFromCache(cache);
+  log.info(`GET /api/movies — returning ${movies.length} movie(s)`);
   res.json({
     lastRefreshed: cache.lastRefreshed,
     users: USERS,
     failures: cache.failures || [],
-    movies: summariesFromCache(cache)
+    movies
   });
 });
 
 app.get("/api/movies/:slug", async (req, res) => {
+  const { slug } = req.params;
+  log.info(`GET /api/movies/${slug}`);
   const cache = await readCache();
-  const movie = await hydrateMovieDetail(cache, req.params.slug);
+  const movie = await hydrateMovieDetail(cache, slug);
   if (!movie) {
+    log.warn(`movie not found: ${slug}`);
     res.status(404).json({ error: "Movie not found in cache. Run a refresh first." });
     return;
   }
@@ -189,20 +276,26 @@ app.get("/api/movies/:slug", async (req, res) => {
 });
 
 app.get("/api/posters/:slug", async (req, res) => {
+  const { slug } = req.params;
+  log.info(`GET /api/posters/${slug}`);
   const cache = await readCache();
-  const posterUrl = await resolvePoster(cache, req.params.slug);
+  const posterUrl = await resolvePoster(cache, slug);
   if (!posterUrl) {
+    log.warn(`no poster found for ${slug}`);
     res.status(404).send("Poster not found");
     return;
   }
+  log.debug(`redirecting poster for ${slug} → ${posterUrl}`);
   res.redirect(302, posterUrl);
 });
 
 app.post("/api/refresh/:slug", async (req, res) => {
   const { slug } = req.params;
+  log.info(`POST /api/refresh/${slug} — force-refreshing single movie`);
   try {
     const cache = await readCache();
     if (!cache.moviesBySlug?.[slug]) {
+      log.warn(`refresh requested for unknown slug: ${slug}`);
       res.status(404).json({ error: "Movie not found in cache." });
       return;
     }
@@ -211,25 +304,33 @@ app.post("/api/refresh/:slug", async (req, res) => {
     movie.entries = movie.entries.map((e) => ({ ...e, reviewChecked: false, reviewText: "", hasReview: false }));
     cache.moviesBySlug[slug] = movie;
     await writeCache(cache);
-    const hydrated = await hydrateMovieDetail(cache, slug);
+    log.info(`[${slug}] cleared cached details and review data — re-hydrating`);
+
+    // preservePoster: true so re-scraping the film page can't overwrite the poster
+    const hydrated = await hydrateMovieDetail(cache, slug, { preservePoster: true });
+
+    log.info(`[${slug}] single-movie refresh complete`);
     res.json({ movie: hydrated, lastRefreshed: cache.lastRefreshed });
   } catch (error) {
-    console.error(`[refresh:${slug}] ${error.message}`);
+    log.error(`single-movie refresh failed for ${slug}: ${error.message}`);
     res.status(500).json({ error: "Refresh failed", message: error.message });
   }
 });
 
 app.post("/api/refresh", async (req, res) => {
+  log.info("POST /api/refresh — full refresh requested");
   try {
     const cache = await refreshCache();
+    const movies = summariesFromCache(cache);
+    log.info(`full refresh complete — ${movies.length} movie(s) in response`);
     res.json({
       lastRefreshed: cache.lastRefreshed,
       users: USERS,
       failures: cache.failures,
-      movies: summariesFromCache(cache)
+      movies
     });
   } catch (error) {
-    console.error(`[refresh] ${error.message}`);
+    log.error(`full refresh failed: ${error.message}`);
     res.status(500).json({ error: "Refresh failed", message: error.message });
   }
 });
@@ -244,23 +345,34 @@ app.get("*", (req, res) => {
 
 // Delete any .tmp files left over from a previous crashed write.
 fs.readdir(path.dirname(CACHE_PATH))
-  .then((files) =>
-    Promise.all(
-      files
-        .filter((f) => f.endsWith(".tmp"))
-        .map((f) => fs.unlink(path.join(path.dirname(CACHE_PATH), f)).catch(() => {}))
-    )
-  )
+  .then((files) => {
+    const stale = files.filter((f) => f.endsWith(".tmp"));
+    if (stale.length > 0) {
+      log.warn(`cleaning up ${stale.length} stale .tmp file(s) from previous run`);
+    }
+    return Promise.all(
+      stale.map((f) => fs.unlink(path.join(path.dirname(CACHE_PATH), f)).catch(() => {}))
+    );
+  })
   .catch(() => {});
 
 const server = app.listen(PORT, () => {
-  console.log(`Letterboxd Together running at http://localhost:${PORT}`);
-  console.log(`Project root: ${ROOT}`);
+  log.info("═══════════════════════════════════════════");
+  log.info(`Letterboxd Together running at http://localhost:${PORT}`);
+  log.info(`Users : ${USERS.join(", ")}`);
+  log.info(`Cache : ${CACHE_PATH}`);
+  log.info(`Root  : ${ROOT}`);
+  log.info(`Node  : ${process.version}`);
+  log.info(`Env   : ${process.env.NODE_ENV || "development"}`);
+  log.info(`Log   : ${process.env.LOG_LEVEL || "info"}`);
+  log.info("═══════════════════════════════════════════");
 });
 
 async function shutdown() {
+  log.info("shutting down — closing server and browser");
   server.close();
   await closeBrowser();
+  log.info("shutdown complete");
 }
 
 process.on("SIGTERM", shutdown);

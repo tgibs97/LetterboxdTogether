@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import { absoluteUrl, fetchLetterboxd, logScrapeFailure } from "./letterboxdClient.js";
 import { normalizePosterUrl, slugFromFilmUrl, text } from "./normalizers.js";
+import { createLogger } from "../logger.js";
 
 const MAX_VIEWING_ATTEMPTS = 10;
 
@@ -58,6 +59,9 @@ function reviewMatches($, expectedSlug, expectedWatchedDate) {
 }
 
 export async function scrapeReviewForEntry(entry) {
+  const log = createLogger(`review:${entry.username}:${entry.slug}`);
+  log.info(`looking for review (watchedDate=${entry.watchedDate})`);
+
   const candidates = [];
   if (entry.reviewUrl) {
     candidates.push({
@@ -77,13 +81,24 @@ export async function scrapeReviewForEntry(entry) {
     if (seen.has(candidate.url)) continue;
     seen.add(candidate.url);
 
+    log.debug(`trying ${candidate.url}`);
+
     try {
       const { html } = await fetchLetterboxd(candidate.url);
       const $ = cheerio.load(html);
 
-      if (!reviewMatches($, entry.slug, entry.watchedDate)) continue;
+      if (!reviewMatches($, entry.slug, entry.watchedDate)) {
+        log.debug(`slug/date mismatch — skipping ${candidate.url}`);
+        continue;
+      }
 
       const reviewText = extractReviewText($);
+      if (reviewText) {
+        log.info(`review found at ${candidate.url} (${reviewText.length} chars)`);
+      } else {
+        log.info(`page matched but no review text at ${candidate.url}`);
+      }
+
       return {
         ...entry,
         reviewUrl: candidate.url,
@@ -93,12 +108,16 @@ export async function scrapeReviewForEntry(entry) {
         reviewChecked: true
       };
     } catch (error) {
-      if (error?.status === 403 || error?.status === 404) continue;
+      if (error?.status === 403 || error?.status === 404) {
+        log.debug(`${error.status} at ${candidate.url} — skipping`);
+        continue;
+      }
       logScrapeFailure(`review:${entry.username}:${entry.slug}`, error);
       break;
     }
   }
 
+  log.info("no review found after exhausting all candidates");
   return {
     ...entry,
     reviewUrl: entry.reviewUrl || "",
@@ -110,6 +129,10 @@ export async function scrapeReviewForEntry(entry) {
 }
 
 export async function scrapeMovieDetails(slug) {
+  const log = createLogger(`details:${slug}`);
+  log.info(`scraping movie details`);
+  const done = log.timer(`details:${slug}`);
+
   try {
     const { html } = await fetchLetterboxd(`/film/${slug}/`);
     const $ = cheerio.load(html);
@@ -130,6 +153,9 @@ export async function scrapeMovieDetails(slug) {
     const posterUrl = normalizePosterUrl(
       $("meta[property='og:image']").attr("content") || $("img").first().attr("src")
     );
+
+    done();
+    log.info(`details scraped — director="${director}" runtime="${runtime}" genres=[${genres.join(", ")}] poster=${posterUrl ? "yes" : "no"}`);
 
     return {
       director,
