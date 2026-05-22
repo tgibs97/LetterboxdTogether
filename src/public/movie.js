@@ -1,9 +1,16 @@
 const elements = {
   status: document.querySelector("#status"),
   detail: document.querySelector("#movieDetail"),
-  pageTitle: document.querySelector("#pageTitle"),
-  refreshBtn: document.querySelector("#refreshBtn")
+  refreshBtn: document.querySelector("#refreshBtn"),
+  refreshModal: document.querySelector("#movieRefreshModal"),
+  refreshAllUsers: document.querySelector("#movieRefreshAllUsers"),
+  refreshUserChoices: document.querySelector("#movieRefreshUserChoices"),
+  cancelRefreshButton: document.querySelector("#cancelMovieRefreshButton"),
+  confirmRefreshButton: document.querySelector("#confirmMovieRefreshButton")
 };
+
+let currentMovie = null;
+let allUsers = [];
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -41,14 +48,19 @@ function ratingLine(value) {
   return `${"\u2605".repeat(full)}${fracChar}`;
 }
 
+function averageRatingLine(value) {
+  if (value == null) return "No rating";
+  return ratingLine(value);
+}
+
 function posterMarkup(movie) {
   const src = movie.posterUrl || `/api/posters/${encodeURIComponent(movie.slug)}`;
   return `<img class="poster large" src="${escapeHtml(src)}" alt="Poster for ${escapeHtml(movie.title)}" data-poster>`;
 }
 
 function renderMovie(movie) {
+  currentMovie = movie;
   document.title = `${movie.title} - Letterboxd Together`;
-  elements.pageTitle.textContent = movie.title;
 
   const details = movie.details || {};
   const meta = [
@@ -64,6 +76,10 @@ function renderMovie(movie) {
       <div class="detail-copy">
         <h2>${escapeHtml(movie.title)}</h2>
         <p class="meta">${escapeHtml(meta.join(" | ") || "Basic details unavailable.")}</p>
+        <p class="movie-average">
+          <span class="label">Average Review Score</span>
+          <span class="rating">${escapeHtml(averageRatingLine(movie.averageRating))}</span>
+        </p>
         ${details.description ? `<p>${escapeHtml(details.description)}</p>` : ""}
         <p><a class="film-link" href="${escapeHtml(movie.letterboxdUrl)}" target="_blank" rel="noreferrer">Open on Letterboxd</a></p>
       </div>
@@ -80,6 +96,7 @@ function renderMovie(movie) {
     fallback.textContent = "No poster";
     poster.replaceWith(fallback);
   }, { once: true });
+  renderRefreshChoices(movie);
 }
 
 function entryMarkup(entry) {
@@ -115,6 +132,7 @@ async function loadMovie() {
     const response = await fetch(`/api/movies/${encodeURIComponent(slug)}`);
     if (!response.ok) throw new Error(`API returned ${response.status}`);
     const data = await response.json();
+    allUsers = data.users || [];
     renderMovie(data.movie);
     elements.status.hidden = true;
     elements.refreshBtn.hidden = false;
@@ -125,25 +143,108 @@ async function loadMovie() {
 
 async function refreshMovie() {
   const slug = slugFromLocation();
+  const users = selectedRefreshUsers();
+
+  if (!users.length) {
+    setStatus("Choose at least one user to refresh.", true);
+    return;
+  }
+
+  closeRefreshModal();
   elements.refreshBtn.disabled = true;
-  elements.refreshBtn.textContent = "Refreshing…";
+  elements.confirmRefreshButton.disabled = true;
+  elements.refreshBtn.textContent = "Refreshing...";
   elements.status.hidden = false;
-  setStatus("Re-scraping reviews and details…", false, true);
+  setStatus(`Re-scraping details and reviews for ${users.join(", ")}...`, false, true);
 
   try {
-    const response = await fetch(`/api/refresh/${encodeURIComponent(slug)}`, { method: "POST" });
+    const response = await fetch(`/api/refresh/${encodeURIComponent(slug)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ users })
+    });
     if (!response.ok) throw new Error(`API returned ${response.status}`);
     const data = await response.json();
+    allUsers = data.users || allUsers;
     renderMovie(data.movie);
     elements.status.hidden = true;
   } catch (error) {
     setStatus(`Refresh failed: ${error.message}`, true);
   } finally {
     elements.refreshBtn.disabled = false;
+    elements.confirmRefreshButton.disabled = false;
     elements.refreshBtn.textContent = "Refresh";
   }
 }
 
-elements.refreshBtn.addEventListener("click", refreshMovie);
+function movieUsers(movie) {
+  return [...new Set((movie?.entries || []).map((entry) => entry.username).filter(Boolean))].sort();
+}
+
+function renderRefreshChoices(movie) {
+  const users = allUsers.length ? allUsers : movieUsers(movie);
+  elements.refreshAllUsers.checked = true;
+  elements.refreshUserChoices.innerHTML = "";
+
+  for (const user of users) {
+    const label = document.createElement("label");
+    label.className = "check-row";
+    label.innerHTML = `
+      <input type="checkbox" value="${escapeHtml(user)}" data-movie-refresh-user checked>
+      <span>${escapeHtml(user)}</span>
+    `;
+    elements.refreshUserChoices.append(label);
+  }
+
+  updateRefreshPicker();
+}
+
+function updateRefreshPicker() {
+  const userChecks = [...elements.refreshUserChoices.querySelectorAll("[data-movie-refresh-user]")];
+  const refreshAll = elements.refreshAllUsers.checked;
+
+  for (const checkbox of userChecks) {
+    checkbox.disabled = refreshAll;
+    if (refreshAll) checkbox.checked = true;
+  }
+
+  elements.confirmRefreshButton.disabled = !refreshAll && !userChecks.some((checkbox) => checkbox.checked);
+}
+
+function selectedRefreshUsers() {
+  const users = allUsers.length ? allUsers : movieUsers(currentMovie);
+  if (elements.refreshAllUsers.checked) return users;
+  return [...elements.refreshUserChoices.querySelectorAll("[data-movie-refresh-user]:checked")]
+    .map((checkbox) => checkbox.value);
+}
+
+function openRefreshModal() {
+  if (!currentMovie) return;
+
+  if (!elements.refreshModal.showModal) {
+    if (window.confirm("Refresh this movie? This can take a while and should not be run frequently because it is resource intensive.")) {
+      refreshMovie();
+    }
+    return;
+  }
+
+  updateRefreshPicker();
+  elements.refreshModal.showModal();
+}
+
+function closeRefreshModal() {
+  if (elements.refreshModal.open) {
+    elements.refreshModal.close();
+  }
+}
+
+elements.refreshBtn.addEventListener("click", openRefreshModal);
+elements.cancelRefreshButton.addEventListener("click", closeRefreshModal);
+elements.confirmRefreshButton.addEventListener("click", refreshMovie);
+elements.refreshAllUsers.addEventListener("change", updateRefreshPicker);
+elements.refreshUserChoices.addEventListener("change", updateRefreshPicker);
+elements.refreshModal.addEventListener("click", (event) => {
+  if (event.target === elements.refreshModal) closeRefreshModal();
+});
 
 loadMovie();

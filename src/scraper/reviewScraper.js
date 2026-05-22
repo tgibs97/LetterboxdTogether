@@ -101,6 +101,7 @@ export async function scrapeReviewForEntry(entry) {
 
       return {
         ...entry,
+        watchedDate: entry.watchedDate || extractWatchedDate($),
         reviewUrl: candidate.url,
         viewingNumber: candidate.viewingNumber,
         hasReview: Boolean(reviewText),

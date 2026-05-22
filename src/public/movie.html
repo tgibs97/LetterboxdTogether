@@ -10,7 +10,6 @@
   <body>
     <header class="site-header compact">
       <a class="back-link" href="/">Back to movies</a>
-      <h1 id="pageTitle">Movie</h1>
       <button id="refreshBtn" class="refresh-button" hidden>Refresh</button>
     </header>
 
@@ -18,5 +17,26 @@
       <p id="status" class="status" role="status">Loading movie...</p>
       <section id="movieDetail" class="detail" hidden></section>
     </main>
+
+    <dialog id="movieRefreshModal" class="modal" aria-labelledby="movieRefreshModalTitle">
+      <form method="dialog" class="modal-panel">
+        <h2 id="movieRefreshModalTitle">Refresh this movie?</h2>
+        <p>
+          This will re-check movie details and review pages on Letterboxd. It can take a while and should not be run frequently because it is resource intensive for both this app and Letterboxd.
+        </p>
+        <fieldset class="picker-group">
+          <legend>Users to refresh</legend>
+          <label class="check-row check-row-strong">
+            <input id="movieRefreshAllUsers" type="checkbox" checked>
+            <span>Refresh all users</span>
+          </label>
+          <div id="movieRefreshUserChoices" class="check-grid"></div>
+        </fieldset>
+        <div class="modal-actions">
+          <button id="cancelMovieRefreshButton" class="secondary-button" type="button">Cancel</button>
+          <button id="confirmMovieRefreshButton" class="primary-button" type="button">Refresh now</button>
+        </div>
+      </form>
+    </dialog>
   </body>
 </html>
