@@ -1,4 +1,7 @@
 import { fetchWithBrowser } from "./browserFetch.js";
+import { createLogger } from "../logger.js";
+
+const log = createLogger("http");
 
 const BASE_URL = "https://letterboxd.com";
 const RETRY_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
@@ -18,8 +21,10 @@ export function absoluteUrl(pathOrUrl) {
 export async function politeDelay() {
   const requestDelayMs = Number(process.env.LETTERBOXD_REQUEST_DELAY_MS || 1600);
   const elapsed = Date.now() - lastRequestAt;
-  if (elapsed < requestDelayMs) {
-    await sleep(requestDelayMs - elapsed);
+  const wait = requestDelayMs - elapsed;
+  if (wait > 0) {
+    log.debug(`polite delay ${wait}ms`);
+    await sleep(wait);
   }
   lastRequestAt = Date.now();
 }
@@ -60,15 +65,26 @@ export async function fetchLetterboxd(pathOrUrl, referer) {
   for (let attempt = 0; attempt < 2; attempt += 1) {
     await politeDelay();
 
+    const reqStart = Date.now();
+    if (attempt > 0) {
+      log.warn(`retry attempt ${attempt + 1} for ${url}`);
+    } else {
+      log.debug(`GET ${url}`);
+    }
+
     response = await fetch(url, {
       headers: requestHeaders(referer)
     });
     html = await response.text();
 
+    const elapsed = Date.now() - reqStart;
+    log.info(`GET ${url} → ${response.status} (${elapsed}ms, ${Math.round(html.length / 1024)}KB)`);
+
     if (response.ok || !RETRY_STATUSES.has(response.status) || attempt === 1) {
       break;
     }
 
+    log.warn(`status ${response.status} is retryable — waiting 3s before retry`);
     await sleep(3000);
   }
 
@@ -76,12 +92,13 @@ export async function fetchLetterboxd(pathOrUrl, referer) {
     const isChallenge = /Just a moment|cf-browser-verification|challenge-platform/i.test(html);
 
     if (isChallenge) {
-      console.warn(`[cf-challenge] Falling back to browser fetch for ${url}`);
+      log.warn(`CF challenge detected at ${url} — falling back to browser fetch`);
       try {
         const browserHtml = await fetchWithBrowser(url, referer);
+        log.info(`browser fetch succeeded for ${url}`);
         return { url, html: browserHtml };
       } catch (browserError) {
-        console.error(`[cf-challenge] Browser fetch also failed: ${browserError.message}`);
+        log.error(`browser fetch also failed for ${url}: ${browserError.message}`);
       }
     }
 
@@ -100,7 +117,8 @@ export async function fetchLetterboxd(pathOrUrl, referer) {
 }
 
 export function logScrapeFailure(context, error) {
+  const scrapeLog = createLogger(`scrape:${context}`);
   const message = error?.message || String(error);
   const url = error?.url ? ` url=${error.url}` : "";
-  console.error(`[scrape:${context}] ${message}${url}`);
+  scrapeLog.error(`${message}${url}`);
 }

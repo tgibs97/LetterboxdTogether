@@ -1,3 +1,7 @@
+import { createLogger } from "../logger.js";
+
+const log = createLogger("tmdb");
+
 const TMDB_API_BASE = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p";
 const POSTER_SIZE = "w342";
@@ -51,10 +55,17 @@ export function tmdbPosterUrl(path) {
 }
 
 export async function findTmdbPoster(movie) {
-  if (!hasCredentials() || !movie?.title) return null;
+  if (!hasCredentials()) {
+    log.debug("no TMDB credentials — skipping poster lookup");
+    return null;
+  }
+  if (!movie?.title) return null;
 
   const { apiKey } = tmdbCredentials();
   const year = releaseYear(movie.releaseDate);
+
+  log.info(`searching for "${movie.title}"${year ? ` (${year})` : ""}`);
+
   const url = new URL(`${TMDB_API_BASE}/search/movie`);
   url.searchParams.set("query", movie.title);
   url.searchParams.set("include_adult", "false");
@@ -62,12 +73,14 @@ export async function findTmdbPoster(movie) {
   if (year) url.searchParams.set("year", year);
   if (apiKey) url.searchParams.set("api_key", apiKey);
 
+  const reqStart = Date.now();
   const response = await fetch(url, {
     headers: {
       Accept: "application/json",
       ...authHeaders()
     }
   });
+  log.info(`TMDB search → ${response.status} (${Date.now() - reqStart}ms)`);
 
   if (!response.ok) {
     throw new Error(`TMDB search failed with ${response.status}`);
@@ -75,11 +88,18 @@ export async function findTmdbPoster(movie) {
 
   const data = await response.json();
   const results = Array.isArray(data.results) ? data.results : [];
+  log.debug(`${results.length} result(s) returned, ${results.filter((r) => r.poster_path).length} with poster`);
+
   const best = results
     .filter((result) => result.poster_path)
     .sort((a, b) => scoreResult(b, movie.title, year) - scoreResult(a, movie.title, year))[0];
 
-  if (!best?.poster_path) return null;
+  if (!best?.poster_path) {
+    log.info(`no poster found for "${movie.title}"`);
+    return null;
+  }
+
+  log.info(`best match: "${best.title || best.original_title}" (${best.release_date?.slice(0, 4) || "?"}) — tmdbId=${best.id}`);
 
   return {
     tmdbId: best.id,
