@@ -25,11 +25,13 @@
 
 ## Step 2 — Edit docker-compose.yml
 
-Open `docker-compose.yml` and replace `YOUR_GITHUB_USERNAME` with your actual GitHub username (lowercase). The image name must match exactly what GHCR shows, e.g.:
+The image name in `docker-compose.yml` is already set to:
 
 ```
 ghcr.io/tgibs97/letterboxdtogether:latest
 ```
+
+GHCR requires all image names to be lowercase — the workflow handles this automatically.
 
 ---
 
