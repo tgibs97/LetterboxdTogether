@@ -2,12 +2,14 @@ const state = {
   movies: [],
   users: [],
   watchedByFilter: [],
+  combineViewings: false,
   sortKey: "latestWatchedDate",
   sortDirection: "desc"
 };
 
 const elements = {
   body: document.querySelector("#moviesBody"),
+  table: document.querySelector("#moviesTable"),
   status: document.querySelector("#status"),
   lastRefreshed: document.querySelector("#lastRefreshed"),
   refreshButton: document.querySelector("#refreshButton"),
@@ -17,7 +19,8 @@ const elements = {
   refreshAllUsers: document.querySelector("#refreshAllUsers"),
   refreshUserChoices: document.querySelector("#refreshUserChoices"),
   searchInput: document.querySelector("#searchInput"),
-  userFilter: document.querySelector("#userFilter"),
+  combineViewings: document.querySelector("#combineViewings"),
+  watchedDateHeaderButton: document.querySelector("#watchedDateHeaderButton"),
   watchedByFilterButton: document.querySelector("#watchedByFilterButton"),
   watchedByFilterMenu: document.querySelector("#watchedByFilterMenu"),
   watchedByFilterChoices: document.querySelector("#watchedByFilterChoices"),
@@ -25,10 +28,29 @@ const elements = {
   sortButtons: document.querySelectorAll(".sort-button")
 };
 
+const COMBINE_VIEWINGS_COOKIE = "letterboxdTogetherCombineViewings";
+
 function setStatus(message, isError = false, isLoading = false) {
   elements.status.textContent = message;
   elements.status.classList.toggle("error", isError);
   elements.status.classList.toggle("loading", isLoading && !isError);
+}
+
+function getCookie(name) {
+  return document.cookie
+    .split(";")
+    .map((cookie) => cookie.trim())
+    .find((cookie) => cookie.startsWith(`${name}=`))
+    ?.slice(name.length + 1) || "";
+}
+
+function setCookie(name, value) {
+  document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=31536000; Path=/; SameSite=Lax`;
+}
+
+function restoreCombineViewingsPreference() {
+  state.combineViewings = getCookie(COMBINE_VIEWINGS_COOKIE) === "true";
+  elements.combineViewings.checked = state.combineViewings;
 }
 
 function formatDate(value) {
@@ -58,6 +80,16 @@ function posterCell(movie) {
   return `<img class="poster" src="${escapeHtml(src)}" alt="Poster for ${escapeHtml(movie.title)}" loading="lazy" data-poster>`;
 }
 
+function averageRatingForEntries(entries) {
+  const ratings = entries
+    .map((entry) => entry.rating)
+    .filter((rating) => typeof rating === "number" && !Number.isNaN(rating));
+
+  return ratings.length
+    ? Number((ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length).toFixed(2))
+    : null;
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -67,21 +99,51 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function combinedMovieRows() {
+  const bySlug = new Map();
+
+  for (const row of state.movies) {
+    if (!bySlug.has(row.slug)) {
+      bySlug.set(row.slug, {
+        ...row,
+        rowKey: `${row.slug}:combined`,
+        entries: [],
+        watchedBy: [],
+        averageRating: row.aggregateRating ?? row.averageRating
+      });
+    }
+
+    const combined = bySlug.get(row.slug);
+    combined.latestWatchedDate = [combined.latestWatchedDate, row.latestWatchedDate]
+      .filter(Boolean)
+      .sort()
+      .pop() || "";
+    combined.entries.push(...(row.entries || []));
+    combined.watchedBy = [...new Set([...combined.watchedBy, ...(row.watchedBy || [])])].sort();
+    combined.aggregateRating = row.aggregateRating ?? combined.aggregateRating;
+    combined.averageRating = combined.aggregateRating ?? averageRatingForEntries(combined.entries);
+  }
+
+  return [...bySlug.values()];
+}
+
+function displayRows() {
+  return state.combineViewings ? combinedMovieRows() : state.movies;
+}
+
 function filteredMovies() {
   const query = elements.searchInput.value.trim().toLowerCase();
-  const user = elements.userFilter.value;
   const watchedByUsers = state.watchedByFilter;
 
-  return state.movies
+  return displayRows()
     .filter((movie) => !query || movie.title.toLowerCase().includes(query))
-    .filter((movie) => !user || movie.watchedBy.includes(user))
     .filter((movie) => watchedByUsers.every((selectedUser) => movie.watchedBy.includes(selectedUser)))
     .sort((a, b) => {
       const direction = state.sortDirection === "asc" ? 1 : -1;
       const aValue = a[state.sortKey];
       const bValue = b[state.sortKey];
 
-      if (state.sortKey === "averageRating") {
+      if (state.sortKey === "averageRating" || state.sortKey === "aggregateRating") {
         return (((aValue ?? -1) - (bValue ?? -1)) || a.title.localeCompare(b.title)) * direction;
       }
 
@@ -90,13 +152,6 @@ function filteredMovies() {
 }
 
 function renderUsers() {
-  elements.userFilter.innerHTML = '<option value="">Everyone</option>';
-  for (const user of state.users) {
-    const option = document.createElement("option");
-    option.value = user;
-    option.textContent = user;
-    elements.userFilter.append(option);
-  }
   renderRefreshChoices();
   renderWatchedByFilterChoices();
 }
@@ -193,13 +248,15 @@ function clearWatchedByFilter() {
 function renderMovies() {
   const movies = filteredMovies();
   elements.body.innerHTML = "";
+  elements.table.classList.toggle("combine-viewings", state.combineViewings);
+  elements.watchedDateHeaderButton.textContent = state.combineViewings ? "Last Watched" : "Watched";
 
   if (!movies.length) {
     setStatus(state.movies.length ? "No movies match the current filters." : "No cached movies yet. Run a refresh.");
     return;
   }
 
-  setStatus(`${movies.length} movie${movies.length === 1 ? "" : "s"} shown.`);
+  setStatus(`${movies.length} row${movies.length === 1 ? "" : "s"} shown.`);
 
   for (const movie of movies) {
     const row = document.createElement("tr");
@@ -211,7 +268,8 @@ function renderMovies() {
       <td><a class="film-link" href="/movie/${encodeURIComponent(movie.slug)}">${escapeHtml(movie.title)}</a></td>
       <td>${escapeHtml(movie.releaseDate || "Unknown")}</td>
       <td><span class="pill-list">${movie.watchedBy.map((user) => `<span class="pill">${escapeHtml(user)}</span>`).join("")}</span></td>
-      <td><span class="rating">${escapeHtml(starsForRating(movie.averageRating))}</span></td>
+      <td class="viewing-score-column"><span class="rating">${escapeHtml(starsForRating(movie.averageRating))}</span></td>
+      <td><span class="rating">${escapeHtml(starsForRating(movie.aggregateRating))}</span></td>
     `;
     row.addEventListener("click", (event) => {
       if (event.target.closest("a")) return;
@@ -318,7 +376,15 @@ function updateSortIndicators() {
 }
 
 elements.searchInput.addEventListener("input", renderMovies);
-elements.userFilter.addEventListener("change", renderMovies);
+elements.combineViewings.addEventListener("change", () => {
+  state.combineViewings = elements.combineViewings.checked;
+  setCookie(COMBINE_VIEWINGS_COOKIE, String(state.combineViewings));
+  if (state.combineViewings && state.sortKey === "averageRating") {
+    state.sortKey = "aggregateRating";
+  }
+  renderMovies();
+  updateSortIndicators();
+});
 elements.watchedByFilterButton.addEventListener("click", (event) => {
   event.stopPropagation();
   toggleWatchedByFilterMenu();
@@ -353,4 +419,5 @@ for (const button of elements.sortButtons) {
   });
 }
 
+restoreCombineViewingsPreference();
 loadMovies();

@@ -104,13 +104,49 @@ async function writeCache(cache) {
   return _writeLock;
 }
 
+function averageRatingForEntries(entries) {
+  const ratings = entries
+    .map((entry) => entry.rating)
+    .filter((rating) => typeof rating === "number" && !Number.isNaN(rating));
+
+  return ratings.length
+    ? Number((ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length).toFixed(2))
+    : null;
+}
+
 function summariesFromCache(cache) {
-  return Object.values(cache.moviesBySlug || {}).sort((a, b) =>
-    String(b.latestWatchedDate || "").localeCompare(String(a.latestWatchedDate || ""))
-  ).map((movie) => ({
-    ...movie,
-    posterUrl: isLikelyDirectImageUrl(movie.posterUrl) ? movie.posterUrl : ""
-  }));
+  const rows = [];
+
+  for (const movie of Object.values(cache.moviesBySlug || {})) {
+    const entriesByDate = new Map();
+
+    for (const entry of movie.entries || []) {
+      const watchedDate = entry.watchedDate || "";
+      if (!entriesByDate.has(watchedDate)) entriesByDate.set(watchedDate, []);
+      entriesByDate.get(watchedDate).push(entry);
+    }
+
+    for (const [watchedDate, entries] of entriesByDate.entries()) {
+      rows.push({
+        slug: movie.slug,
+        rowKey: `${movie.slug}:${watchedDate || "unknown"}`,
+        title: movie.title,
+        releaseDate: movie.releaseDate,
+        posterUrl: isLikelyDirectImageUrl(movie.posterUrl) ? movie.posterUrl : "",
+        letterboxdUrl: movie.letterboxdUrl,
+        latestWatchedDate: watchedDate,
+        watchedBy: [...new Set(entries.map((entry) => entry.username).filter(Boolean))].sort(),
+        averageRating: averageRatingForEntries(entries),
+        aggregateRating: movie.averageRating,
+        entries
+      });
+    }
+  }
+
+  return rows.sort((a, b) =>
+    String(b.latestWatchedDate || "").localeCompare(String(a.latestWatchedDate || "")) ||
+    String(a.title || "").localeCompare(String(b.title || ""))
+  );
 }
 
 function validRefreshUsers(requestedUsers) {
@@ -346,7 +382,7 @@ async function resolvePoster(cache, slug) {
 app.get("/api/movies", async (req, res) => {
   const cache = await readCache();
   const movies = summariesFromCache(cache);
-  log.info(`GET /api/movies — returning ${movies.length} movie(s)`);
+  log.info(`GET /api/movies — returning ${movies.length} row(s)`);
   res.json({
     lastRefreshed: cache.lastRefreshed,
     users: USERS,

@@ -26,21 +26,22 @@
           <span class="label">Search</span>
           <input id="searchInput" type="search" placeholder="Filter by film name">
         </label>
-        <label>
-          <span class="label">User</span>
-          <select id="userFilter">
-            <option value="">Everyone</option>
-          </select>
+        <label class="toolbar-check">
+          <span class="label">Display</span>
+          <span class="check-row check-row-strong">
+            <input id="combineViewings" type="checkbox">
+            <span>Combine viewings</span>
+          </span>
         </label>
       </section>
 
       <p id="status" class="status" role="status">Loading movies...</p>
 
       <section class="table-wrap" aria-label="Movies">
-        <table>
+        <table id="moviesTable">
           <thead>
             <tr>
-              <th><button class="sort-button" data-sort="latestWatchedDate">Watched</button></th>
+              <th><button id="watchedDateHeaderButton" class="sort-button" data-sort="latestWatchedDate">Watched</button></th>
               <th>Poster</th>
               <th><button class="sort-button" data-sort="title">Title</button></th>
               <th><button class="sort-button" data-sort="releaseDate">Year</button></th>
@@ -56,7 +57,8 @@
                   </div>
                 </div>
               </th>
-              <th><button class="sort-button" data-sort="averageRating">Average Score</button></th>
+              <th class="viewing-score-column"><button class="sort-button" data-sort="averageRating">Viewing Score</button></th>
+              <th><button class="sort-button" data-sort="aggregateRating">Aggregate Score</button></th>
             </tr>
           </thead>
           <tbody id="moviesBody"></tbody>
