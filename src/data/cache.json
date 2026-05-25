@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-05-22T20:57:16.931Z",
+  "lastRefreshed": "2026-05-25T16:38:24.032Z",
   "users": [
     "tgibs97",
     "theonlysaneone",
@@ -13,12 +13,13 @@
       "releaseDate": "1977",
       "posterUrl": "https://image.tmdb.org/t/p/w342/yaPx3cK9zGFX3SbcKwxWM1QIbUh.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/close-encounters-of-the-third-kind/",
-      "latestWatchedDate": "2026-05-17",
+      "latestWatchedDate": "2026-05-24",
       "watchedBy": [
+        "inscrutablejule",
         "tgibs97",
         "theonlysaneone"
       ],
-      "averageRating": 3.5,
+      "averageRating": 3.83,
       "details": {
         "director": "Steven Spielberg",
         "runtime": "137 mins",
@@ -31,6 +32,20 @@
       },
       "entries": [
         {
+          "username": "inscrutablejule",
+          "slug": "close-encounters-of-the-third-kind",
+          "title": "Close Encounters of the Third Kind",
+          "releaseDate": "1977",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 4.5,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/close-encounters-of-the-third-kind/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "",
+          "reviewChecked": false
+        },
+        {
           "username": "tgibs97",
           "slug": "close-encounters-of-the-third-kind",
           "title": "Close Encounters of the Third Kind",
@@ -41,8 +56,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/close-encounters-of-the-third-kind/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Close Encounters of the Third Kind is Good",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -52,8 +67,8 @@
           "posterUrl": "",
           "watchedDate": "2026-05-17",
           "rating": 3.5,
-          "reviewUrl": "https://letterboxd.com/theonlysaneone/film/close-encounters-of-the-third-kind/0/",
-          "viewingNumber": 0,
+          "reviewUrl": "",
+          "viewingNumber": null,
           "hasReview": false,
           "reviewText": "",
           "reviewChecked": true
@@ -68,12 +83,13 @@
       "releaseDate": "2022",
       "posterUrl": "https://image.tmdb.org/t/p/w342/fPtUgMcLIboqlTlPrq0bQpKK8eq.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/the-menu-2022/",
-      "latestWatchedDate": "2026-05-16",
+      "latestWatchedDate": "2026-05-24",
       "watchedBy": [
+        "inscrutablejule",
         "tgibs97",
         "theonlysaneone"
       ],
-      "averageRating": 4.25,
+      "averageRating": 4.17,
       "details": {
         "director": "Mark Mylod",
         "runtime": "107 mins",
@@ -85,6 +101,20 @@
         "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/9k/lr/hv/rv/GFq9kYUnpRCnlbIbjPzNA96e0j-1200-1200-675-675-crop-000000.jpg?v=4de0ef9ae6"
       },
       "entries": [
+        {
+          "username": "inscrutablejule",
+          "slug": "the-menu-2022",
+          "title": "The Menu",
+          "releaseDate": "2022",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 4,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/the-menu-2022/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "That cheeseburger looked really good",
+          "reviewChecked": true
+        },
         {
           "username": "tgibs97",
           "slug": "the-menu-2022",
@@ -123,12 +153,13 @@
       "releaseDate": "2001",
       "posterUrl": "https://image.tmdb.org/t/p/w342/hQQCdZrsHtZyR6NbKH2YyCqd2fR.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/oceans-eleven-2001/",
-      "latestWatchedDate": "2026-05-03",
+      "latestWatchedDate": "2026-05-24",
       "watchedBy": [
+        "inscrutablejule",
         "tgibs97",
         "theonlysaneone"
       ],
-      "averageRating": 4.75,
+      "averageRating": 4.67,
       "details": {
         "director": "Steven Soderbergh",
         "runtime": "116 mins",
@@ -141,6 +172,20 @@
       },
       "entries": [
         {
+          "username": "inscrutablejule",
+          "slug": "oceans-eleven-2001",
+          "title": "Ocean's Eleven",
+          "releaseDate": "2001",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 4.5,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/oceans-eleven-2001/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "",
+          "reviewChecked": false
+        },
+        {
           "username": "tgibs97",
           "slug": "oceans-eleven-2001",
           "title": "Ocean's Eleven",
@@ -151,8 +196,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/oceans-eleven-2001/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Ocean’s Eleven is a Masterpiece",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -165,8 +210,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/oceans-eleven-2001/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "The classic heist movie. All the other heist movies wish they could be this one.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -178,12 +223,13 @@
       "releaseDate": "1997",
       "posterUrl": "https://image.tmdb.org/t/p/w342/5uD4dxNX8JKFjWKYMHyOsqhi5pN.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/austin-powers-international-man-of-mystery/",
-      "latestWatchedDate": "2026-04-26",
+      "latestWatchedDate": "2026-05-24",
       "watchedBy": [
+        "inscrutablejule",
         "tgibs97",
         "theonlysaneone"
       ],
-      "averageRating": 3,
+      "averageRating": 2.67,
       "details": {
         "director": "Jay Roach",
         "runtime": "89 mins",
@@ -195,6 +241,20 @@
         "posterUrl": "https://a.ltrbxd.com/resized/sm/upload/rs/9v/22/nc/austin%20powers-1200-1200-675-675-crop-000000.jpg?v=391b34a0ba"
       },
       "entries": [
+        {
+          "username": "inscrutablejule",
+          "slug": "austin-powers-international-man-of-mystery",
+          "title": "Austin Powers: International Man of Mystery",
+          "releaseDate": "1997",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 2,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/austin-powers-international-man-of-mystery/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "Austin Powers is Not Good <3",
+          "reviewChecked": true
+        },
         {
           "username": "tgibs97",
           "slug": "austin-powers-international-man-of-mystery",
@@ -233,8 +293,9 @@
       "releaseDate": "2023",
       "posterUrl": "https://image.tmdb.org/t/p/w342/2NQljeavtfl22207D1kxLpa4LS3.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/nimona-2023/",
-      "latestWatchedDate": "2026-04-05",
+      "latestWatchedDate": "2026-05-24",
       "watchedBy": [
+        "inscrutablejule",
         "tgibs97",
         "theonlysaneone"
       ],
@@ -254,6 +315,20 @@
       },
       "entries": [
         {
+          "username": "inscrutablejule",
+          "slug": "nimona-2023",
+          "title": "Nimona",
+          "releaseDate": "2023",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 4,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/nimona-2023/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "",
+          "reviewChecked": false
+        },
+        {
           "username": "tgibs97",
           "slug": "nimona-2023",
           "title": "Nimona",
@@ -264,8 +339,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/nimona-2023/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Nimona is Decent. Fantastically animated and backed by strong voice performances, it has style and energy to spare, but the story is where it starts to lose its footing. The plot keeps wavering back and forth, shifting direction so often that it becomes harder than it should be to stay fully locked into what the film is trying to say. Even when the emotional core is clear, the storytelling can feel messy and overcomplicated, which keeps it from landing as cleanly as it could. Still, the animation is lively and the cast committed to the point that Nimona remains an enjoyable watch despite its narrative stumbles.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -278,8 +353,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/nimona-2023/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "This movie is fantastic and will always be fantastic.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -291,8 +366,9 @@
       "releaseDate": "2015",
       "posterUrl": "https://image.tmdb.org/t/p/w342/kRofx67xkbnJ6pAVcHdeMyBm4OM.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/the-boy-and-the-beast/",
-      "latestWatchedDate": "2026-03-29",
+      "latestWatchedDate": "2026-05-24",
       "watchedBy": [
+        "inscrutablejule",
         "kieutpie",
         "tgibs97",
         "theonlysaneone"
@@ -314,6 +390,20 @@
       },
       "entries": [
         {
+          "username": "inscrutablejule",
+          "slug": "the-boy-and-the-beast",
+          "title": "The Boy and the Beast",
+          "releaseDate": "2015",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 4,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/the-boy-and-the-beast/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "",
+          "reviewChecked": false
+        },
+        {
           "username": "tgibs97",
           "slug": "the-boy-and-the-beast",
           "title": "The Boy and the Beast",
@@ -324,8 +414,8 @@
           "reviewUrl": "https://letterboxd.com/tgibs97/film/the-boy-and-the-beast/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "The Boy and the Beast is Good. It starts strong and builds real momentum through its first act, with an engaging setup, strong character building, and beautifully animation that gives the film a lot of life. Unfortunately, around the midway point, the plot and the main character take a tangent that just did not work for me. This middle stretch ends up feeling bloated and less focused than the rest of the film. If that middle third had been cut and the first and final thirds of the film given a little more room to breathe, I think this could have been a much better film. Even so, the bloat never completely sinks the experience, and the film remains worth watching for its emotional core, strong opening and closing sections, and consistently excellent animation.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "theonlysaneone",
@@ -338,8 +428,8 @@
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/the-boy-and-the-beast/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "Love these characters, loved the animation. Proof that the best father figures can be the most unexpected. And vice versa *cough cough*",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         },
         {
           "username": "kieutpie",
@@ -352,8 +442,8 @@
           "reviewUrl": "https://letterboxd.com/kieutpie/film/the-boy-and-the-beast/",
           "viewingNumber": null,
           "hasReview": true,
-          "reviewText": "The Boy and the Beast is a movie that that hits a very particular emotional angle for me, so I will not pretend that it causes me to have a soft spot for the film. It represents a lot of what I enjoy in Japanese storytelling that I commonly see in animated films, where it has a sort of whimsical fantasy that hits a lot of human emotions, even if one may not take it as seriously at first. I see this film as a good coming-of-age story, though with a good twist of placing the main character outside of the confines of human society for the majority of their youth. It doesn't ever present the choice between living in the beast world versus the human world as moralistic nor explicitly demonize one side over the other (minus the necessary lore-building to explain why the worlds are separate to begin with). The core plot of the movie centers around growth, finding one's way, and the support it takes to accept others' decisions. Everyone has flaws and the film's premise revolves around the concept of how acceptance in one's self elevates you part of the way - and taking in the goodwill of others in the confusing journey gets you the other part of the way. The journey, not necessarily the destination, is what counts.While I will concede that the movie sometimes has pacing issues (some scenes did not feel particularly necessary or the film lingered on certain points too long), I think as a whole cohesive story, it does it job well. I also found the film to be beautifully animated, with a good OST, so I certainly wasn't lacking for more in that particular department. I think this film was a good solid example of the genre, with a decent moral to boot.",
-          "reviewChecked": true
+          "reviewText": "",
+          "reviewChecked": false
         }
       ],
       "posterSource": "tmdb",
@@ -365,13 +455,14 @@
       "releaseDate": "2026",
       "posterUrl": "https://image.tmdb.org/t/p/w342/yihdXomYb5kTeSivtFndMy5iDmf.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/project-hail-mary/",
-      "latestWatchedDate": "2026-03-21",
+      "latestWatchedDate": "2026-05-24",
       "watchedBy": [
+        "inscrutablejule",
         "kieutpie",
         "tgibs97",
         "theonlysaneone"
       ],
-      "averageRating": 4.88,
+      "averageRating": 4.8,
       "details": {
         "director": "Phil Lord",
         "runtime": "156 mins",
@@ -384,6 +475,20 @@
       },
       "entries": [
         {
+          "username": "inscrutablejule",
+          "slug": "project-hail-mary",
+          "title": "Project Hail Mary",
+          "releaseDate": "2026",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 4.5,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/project-hail-mary/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "Okay Ryan Gosling and War Crimes Woman and the beauty of interstellar friendship got me",
+          "reviewChecked": true
+        },
+        {
           "username": "tgibs97",
           "slug": "project-hail-mary",
           "title": "Project Hail Mary",
@@ -393,8 +498,8 @@
           "rating": 5,
           "reviewUrl": "https://letterboxd.com/tgibs97/film/project-hail-mary/1/",
           "viewingNumber": null,
-          "hasReview": false,
-          "reviewText": "",
+          "hasReview": true,
+          "reviewText": "Saw it again in regular 70mm, and it's still a masterpiece.",
           "reviewChecked": true
         },
         {
@@ -451,11 +556,12 @@
       "letterboxdUrl": "https://letterboxd.com/film/good-luck-have-fun-dont-die/",
       "latestWatchedDate": "2026-02-23",
       "watchedBy": [
+        "inscrutablejule",
         "kieutpie",
         "tgibs97",
         "theonlysaneone"
       ],
-      "averageRating": 3.83,
+      "averageRating": 3.5,
       "details": {},
       "entries": [
         {
@@ -495,6 +601,20 @@
           "watchedDate": "2026-02-21",
           "rating": 4,
           "reviewUrl": "https://letterboxd.com/theonlysaneone/film/good-luck-have-fun-dont-die/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "",
+          "reviewChecked": false
+        },
+        {
+          "username": "inscrutablejule",
+          "slug": "good-luck-have-fun-dont-die",
+          "title": "Good Luck, Have Fun, Don't Die",
+          "releaseDate": "2025",
+          "posterUrl": "",
+          "watchedDate": "2026-02-21",
+          "rating": 2.5,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/good-luck-have-fun-dont-die/",
           "viewingNumber": null,
           "hasReview": true,
           "reviewText": "",
@@ -2350,7 +2470,59 @@
           "reviewChecked": false
         }
       ]
+    },
+    "star-wars-the-mandalorian-and-grogu": {
+      "slug": "star-wars-the-mandalorian-and-grogu",
+      "title": "Star Wars: The Mandalorian and Grogu",
+      "releaseDate": "2026",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5Vi8dSauVwH1HOsiZceDMbRr1Ca.jpg",
+      "letterboxdUrl": "https://letterboxd.com/film/star-wars-the-mandalorian-and-grogu/",
+      "latestWatchedDate": "2026-05-24",
+      "watchedBy": [
+        "inscrutablejule",
+        "theonlysaneone"
+      ],
+      "averageRating": 3.75,
+      "details": {},
+      "entries": [
+        {
+          "username": "theonlysaneone",
+          "slug": "star-wars-the-mandalorian-and-grogu",
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "releaseDate": "2026",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 4,
+          "reviewUrl": "",
+          "viewingNumber": null,
+          "hasReview": false,
+          "reviewText": "",
+          "reviewChecked": true
+        },
+        {
+          "username": "inscrutablejule",
+          "slug": "star-wars-the-mandalorian-and-grogu",
+          "title": "Star Wars: The Mandalorian and Grogu",
+          "releaseDate": "2026",
+          "posterUrl": "",
+          "watchedDate": "2026-05-24",
+          "rating": 3.5,
+          "reviewUrl": "https://letterboxd.com/inscrutablejule/film/star-wars-the-mandalorian-and-grogu/",
+          "viewingNumber": null,
+          "hasReview": true,
+          "reviewText": "",
+          "reviewChecked": false
+        }
+      ],
+      "posterSource": "tmdb",
+      "tmdbId": 1228710
     }
   },
-  "failures": []
+  "failures": [],
+  "lastRefreshUsers": [
+    "tgibs97",
+    "theonlysaneone",
+    "inscrutablejule",
+    "kieutpie"
+  ]
 }

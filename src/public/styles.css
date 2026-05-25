@@ -103,6 +103,10 @@ h1 {
   padding: 0.85rem;
 }
 
+.toolbar-check .check-row {
+  min-height: 2.5rem;
+}
+
 #lastRefreshed {
   white-space: nowrap;
   overflow: hidden;
@@ -321,8 +325,16 @@ input[type="checkbox"] {
 
 table {
   width: 100%;
-  min-width: 820px;
+  min-width: 960px;
   border-collapse: collapse;
+}
+
+table.combine-viewings {
+  min-width: 840px;
+}
+
+table.combine-viewings .viewing-score-column {
+  display: none;
 }
 
 th,
