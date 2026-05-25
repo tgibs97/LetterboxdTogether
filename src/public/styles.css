@@ -107,6 +107,15 @@ h1 {
   min-height: 2.5rem;
 }
 
+.toolbar-check {
+  gap: 0.3rem;
+}
+
+.display-options {
+  display: grid;
+  gap: 0.35rem;
+}
+
 #lastRefreshed {
   white-space: nowrap;
   overflow: hidden;
