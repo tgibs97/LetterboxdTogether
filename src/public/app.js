@@ -3,6 +3,7 @@ const state = {
   users: [],
   watchedByFilter: [],
   combineViewings: false,
+  showDecimalScores: false,
   sortKey: "latestWatchedDate",
   sortDirection: "desc"
 };
@@ -20,6 +21,7 @@ const elements = {
   refreshUserChoices: document.querySelector("#refreshUserChoices"),
   searchInput: document.querySelector("#searchInput"),
   combineViewings: document.querySelector("#combineViewings"),
+  showDecimalScores: document.querySelector("#showDecimalScores"),
   watchedDateHeaderButton: document.querySelector("#watchedDateHeaderButton"),
   watchedByFilterButton: document.querySelector("#watchedByFilterButton"),
   watchedByFilterMenu: document.querySelector("#watchedByFilterMenu"),
@@ -29,6 +31,11 @@ const elements = {
 };
 
 const COMBINE_VIEWINGS_COOKIE = "letterboxdTogetherCombineViewings";
+const SHOW_DECIMAL_SCORES_COOKIE = "letterboxdTogetherShowDecimalScores";
+const WATCHED_BY_FILTER_COOKIE = "letterboxdTogetherWatchedByFilter";
+const SORT_KEY_COOKIE = "letterboxdTogetherSortKey";
+const SORT_DIRECTION_COOKIE = "letterboxdTogetherSortDirection";
+const SORT_KEYS = new Set(["latestWatchedDate", "title", "releaseDate", "averageRating", "aggregateRating"]);
 
 function setStatus(message, isError = false, isLoading = false) {
   elements.status.textContent = message;
@@ -37,20 +44,53 @@ function setStatus(message, isError = false, isLoading = false) {
 }
 
 function getCookie(name) {
-  return document.cookie
+  const value = document.cookie
     .split(";")
     .map((cookie) => cookie.trim())
     .find((cookie) => cookie.startsWith(`${name}=`))
     ?.slice(name.length + 1) || "";
+
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }
 
 function setCookie(name, value) {
   document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=31536000; Path=/; SameSite=Lax`;
 }
 
-function restoreCombineViewingsPreference() {
+function restoreDisplayPreferences() {
   state.combineViewings = getCookie(COMBINE_VIEWINGS_COOKIE) === "true";
+  state.showDecimalScores = getCookie(SHOW_DECIMAL_SCORES_COOKIE) === "true";
   elements.combineViewings.checked = state.combineViewings;
+  elements.showDecimalScores.checked = state.showDecimalScores;
+}
+
+function restoreTablePreferences() {
+  const sortKey = getCookie(SORT_KEY_COOKIE);
+  const sortDirection = getCookie(SORT_DIRECTION_COOKIE);
+
+  if (SORT_KEYS.has(sortKey)) state.sortKey = sortKey;
+  if (sortDirection === "asc" || sortDirection === "desc") state.sortDirection = sortDirection;
+  if (state.combineViewings && state.sortKey === "averageRating") state.sortKey = "aggregateRating";
+
+  try {
+    const watchedByFilter = JSON.parse(getCookie(WATCHED_BY_FILTER_COOKIE) || "[]");
+    state.watchedByFilter = Array.isArray(watchedByFilter) ? watchedByFilter.filter(Boolean) : [];
+  } catch {
+    state.watchedByFilter = [];
+  }
+}
+
+function saveWatchedByFilterPreference() {
+  setCookie(WATCHED_BY_FILTER_COOKIE, JSON.stringify(state.watchedByFilter));
+}
+
+function saveSortPreference() {
+  setCookie(SORT_KEY_COOKIE, state.sortKey);
+  setCookie(SORT_DIRECTION_COOKIE, state.sortDirection);
 }
 
 function formatDate(value) {
@@ -73,6 +113,12 @@ function starsForRating(value) {
   const frac = rounded - full;
   const fracChar = frac >= 0.625 ? "\u00be" : frac >= 0.375 ? "\u00bd" : frac >= 0.125 ? "\u00bc" : "";
   return `${"\u2605".repeat(full)}${fracChar}`;
+}
+
+function ratingDisplay(value) {
+  const stars = starsForRating(value);
+  if (value == null || !state.showDecimalScores) return stars;
+  return `${stars} (${Number(value).toFixed(2)})`;
 }
 
 function posterCell(movie) {
@@ -215,6 +261,7 @@ function selectedWatchedByUsers() {
 
 function updateWatchedByFilter() {
   state.watchedByFilter = selectedWatchedByUsers();
+  saveWatchedByFilterPreference();
   updateWatchedByFilterButton();
   renderMovies();
 }
@@ -238,6 +285,7 @@ function closeWatchedByFilterMenu() {
 
 function clearWatchedByFilter() {
   state.watchedByFilter = [];
+  saveWatchedByFilterPreference();
   for (const checkbox of elements.watchedByFilterChoices.querySelectorAll("[data-watched-by-filter]")) {
     checkbox.checked = false;
   }
@@ -268,8 +316,8 @@ function renderMovies() {
       <td><a class="film-link" href="/movie/${encodeURIComponent(movie.slug)}">${escapeHtml(movie.title)}</a></td>
       <td>${escapeHtml(movie.releaseDate || "Unknown")}</td>
       <td><span class="pill-list">${movie.watchedBy.map((user) => `<span class="pill">${escapeHtml(user)}</span>`).join("")}</span></td>
-      <td class="viewing-score-column"><span class="rating">${escapeHtml(starsForRating(movie.averageRating))}</span></td>
-      <td><span class="rating">${escapeHtml(starsForRating(movie.aggregateRating))}</span></td>
+      <td class="viewing-score-column"><span class="rating">${escapeHtml(ratingDisplay(movie.averageRating))}</span></td>
+      <td><span class="rating">${escapeHtml(ratingDisplay(movie.aggregateRating))}</span></td>
     `;
     row.addEventListener("click", (event) => {
       if (event.target.closest("a")) return;
@@ -381,9 +429,15 @@ elements.combineViewings.addEventListener("change", () => {
   setCookie(COMBINE_VIEWINGS_COOKIE, String(state.combineViewings));
   if (state.combineViewings && state.sortKey === "averageRating") {
     state.sortKey = "aggregateRating";
+    saveSortPreference();
   }
   renderMovies();
   updateSortIndicators();
+});
+elements.showDecimalScores.addEventListener("change", () => {
+  state.showDecimalScores = elements.showDecimalScores.checked;
+  setCookie(SHOW_DECIMAL_SCORES_COOKIE, String(state.showDecimalScores));
+  renderMovies();
 });
 elements.watchedByFilterButton.addEventListener("click", (event) => {
   event.stopPropagation();
@@ -414,10 +468,12 @@ for (const button of elements.sortButtons) {
       state.sortKey = nextKey;
       state.sortDirection = nextKey === "title" ? "asc" : "desc";
     }
+    saveSortPreference();
     renderMovies();
     updateSortIndicators();
   });
 }
 
-restoreCombineViewingsPreference();
+restoreDisplayPreferences();
+restoreTablePreferences();
 loadMovies();

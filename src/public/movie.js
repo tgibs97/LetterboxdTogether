@@ -12,6 +12,8 @@ const elements = {
 let currentMovie = null;
 let allUsers = [];
 
+const SHOW_DECIMAL_SCORES_COOKIE = "letterboxdTogetherShowDecimalScores";
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -25,6 +27,14 @@ function setStatus(message, isError = false, isLoading = false) {
   elements.status.textContent = message;
   elements.status.classList.toggle("error", isError);
   elements.status.classList.toggle("loading", isLoading && !isError);
+}
+
+function getCookie(name) {
+  return document.cookie
+    .split(";")
+    .map((cookie) => cookie.trim())
+    .find((cookie) => cookie.startsWith(`${name}=`))
+    ?.slice(name.length + 1) || "";
 }
 
 function slugFromLocation() {
@@ -50,7 +60,10 @@ function ratingLine(value) {
 
 function averageRatingLine(value) {
   if (value == null) return "No rating";
-  return ratingLine(value);
+  const stars = ratingLine(value);
+  return getCookie(SHOW_DECIMAL_SCORES_COOKIE) === "true"
+    ? `${stars} (${Number(value).toFixed(2)})`
+    : stars;
 }
 
 function posterMarkup(movie) {
